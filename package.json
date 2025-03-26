@@ -1,0 +1,22 @@
+{
+  "name": "idomatic",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "Auto Ids Precommit",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "bin": {
+    "ids-precommiter": "./bin/index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@babel/generator": "^7.27.0",
+    "@babel/parser": "^7.27.0",
+    "@babel/traverse": "^7.27.0",
+    "@babel/types": "^7.27.0",
+    "globby": "^14.1.0"
+  }
+}
