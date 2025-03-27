@@ -13,11 +13,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@babel/generator": "^7.27.0",
-    "@babel/parser": "^7.27.0",
-    "@babel/traverse": "^7.27.0",
-    "@babel/types": "^7.27.0",
     "cheerio": "^1.0.0",
-    "globby": "^14.1.0"
+    "globby": "^14.1.0",
+    "recast": "^0.23.11"
   }
 }
