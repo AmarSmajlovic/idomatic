@@ -8,6 +8,7 @@ const ignoredFiles = [
   ".git",
   ".vercel",
   ".turbo",
+  "public",
 ];
 
 export default ignoredFiles;
