@@ -1,9 +1,10 @@
-idomatic
+IDomatic
 idomatic is a CLI tool that automatically adds id attributes to your HTML/JSX/TSX components. It helps improve your testing and QA processes by ensuring that key elements always have unique, predictable identifiers.
 
 Note: idomatic is optimized for React and HTML-based projects (including Vue and Angular). You can choose your framework during setup, and the tool will create a default configuration accordingly.
 
-Features
+## Features
+
 Automatic ID Injection: Scans your project files and injects id attributes into components that are missing them.
 
 Configurable Behavior: Customize the prefix, specify file extensions, exclude certain tags, and more.
@@ -14,39 +15,18 @@ Framework Specific Defaults: Pre-populated configurations for React (JS/TSX) or 
 
 Easy Integration: Use with your existing build or CI/CD processes.
 
-Installation
-You can install idomatic using your favorite package manager. For example:
+## Installation
 
-bash
-Copy
-
-# Using npm
+To install idomatic, simply run the initializer command:
 
 ```shell
-npm install --save-dev @idomatic/core`
+npm init @idomatic
 ```
 
-# Using yarn
+This command will guide you through selecting your framework and automatically install the necessary configuration file and parser for your project. The default configuration file (e.g., .idomatic.config.json) will be created in your project's root.
 
-```shell
-yarn add --dev @idomatic/core
-```
+## Usage
 
-# Using bun
-
-```shell
-bun add --dev @idomatic/core
-```
-
-Additionally, if you haven't set up the configuration for idomatic, you can run the initializer:
-
-```shell
-npx idomatic --init
-```
-
-This command will guide you through selecting your framework and create a default configuration file (.idomatic.config.json) in your project's root.
-
-Usage
 CLI Commands
 After installation and configuration, you can run idomatic using the following commands:
 
@@ -79,9 +59,10 @@ The configuration file .idomatic.config.json is created during the setup process
 
 You can customize these values to better suit your project’s needs. For HTML/Vue/Angular projects, the includeExtensions field will be set to ["html", "vue", "ng.html"].
 
-How It Works
+## How It Works
+
 Setup:
-Run the setup command (npx idomatic --init) to choose your framework and create a configuration file.
+Run the setup command (e.g npm init @idomatic) to choose your framework and create a configuration file.
 
 Scanning:
 The tool uses your configuration to search for files matching the specified extensions.
@@ -93,7 +74,8 @@ Write Mode: Processes each file, adding id attributes where needed.
 Parsing:
 Depending on the file type, idomatic imports the appropriate parser (@idomatic/parser-js for JavaScript/JSX/TSX or @idomatic/parser-html for HTML-based files) to modify your code using an Abstract Syntax Tree (AST).
 
-Example
+## Example
+
 Imagine you have a React component without an id attribute:
 
 ```js
@@ -116,7 +98,3 @@ The generated id includes a prefix (from the configuration) and a unique identif
 
 Contributing
 Contributions are welcome! Feel free to open issues or pull requests on GitHub.
-
-```
-
-```
