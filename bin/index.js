@@ -1,16 +1,15 @@
 #!/usr/bin/env node
-
-import path from "path";
-import { fileURLToPath } from "url";
 import runInitScan from "../lib/scan.js";
-
-const __filename = fileURLToPath(import.meta.url);
+import runInitScanDry from "../lib/scanDry.js";
 
 const args = process.argv.slice(2);
-const isInitScan = args.includes("--init-scan");
+const isScan = args.includes("scan");
+const isInitScanDry = args.includes("scan --dry");
 
-if (isInitScan) {
+if (isScan) {
   await runInitScan();
+} else if (isInitScanDry) {
+  await runInitScanDry();
 } else {
   console.log("Only --init-scan is supported in MVP for now.");
 }
