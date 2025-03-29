@@ -1,4 +1,4 @@
-const normalizeIgnoreFiles = (input) => {
+const normalizeExcludeFiles = (input) => {
   if (
     !input ||
     input === "" ||
@@ -22,4 +22,4 @@ const normalizeIgnoreFiles = (input) => {
     .filter(Boolean);
 };
 
-export default normalizeIgnoreFiles;
+export default normalizeExcludeFiles;

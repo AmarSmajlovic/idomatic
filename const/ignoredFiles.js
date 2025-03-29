@@ -1,4 +1,4 @@
-const ignoredFiles = [
+const excludeFiles = [
   "node_modules",
   "bun_modules",
   ".next",
@@ -11,4 +11,4 @@ const ignoredFiles = [
   "public",
 ];
 
-export default ignoredFiles;
+export default excludeFiles;

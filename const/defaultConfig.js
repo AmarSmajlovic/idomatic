@@ -1,10 +1,12 @@
-import ignoredFiles from "./ignoredFiles.js";
+import excludeFiles from "./excludeFiles.js";
 
 const defaultConfig = {
+  attributeName: "id",
   prefix: "auto-id-",
-  skipTags: [],
-  extensions: ["js", "jsx", "ts", "tsx"],
-  ignoreFiles: ignoredFiles,
+  // pattern: "[component]-[tag]-[index]",
+  excludeTags: [], //html,head,script...
+  includeExtensions: ["js", "jsx", "ts", "tsx"],
+  excludeFiles: excludeFiles,
 };
 
 export default defaultConfig;
