@@ -59,6 +59,10 @@ The configuration file .idomatic.config.json is created during the setup process
 
 You can customize these values to better suit your project’s needs. For HTML/Vue/Angular projects, the includeExtensions field will be set to ["html", "vue", "ng.html"].
 
+⚠️ Angular Users:
+It is recommended to use templateUrl with a separate .html file rather than defining inline templates in .ts files.
+idomatic processes external HTML templates correctly but does not support inline templates in Angular components. Using templateUrl ensures your component's HTML is picked up during scanning.
+
 ## How It Works
 
 Setup:
