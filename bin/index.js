@@ -3,13 +3,11 @@ import runInitScan from "../lib/scan.js";
 import runInitScanDry from "../lib/scanDry.js";
 
 const args = process.argv.slice(2);
-const isScan = args.includes("scan");
-const isInitScanDry = args.includes("scan --dry");
 
-if (isScan) {
-  await runInitScan();
-} else if (isInitScanDry) {
+if (args[0] === "scan" && args[1] === "--dry") {
   await runInitScanDry();
+} else if (args[0] === "scan") {
+  await runInitScan();
 } else {
-  console.log("Only --init-scan is supported in MVP for now.");
+  console.log("Unsupported command. Please use 'scan' or 'scan --dry'.");
 }
