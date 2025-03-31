@@ -1,0 +1,22 @@
+{
+  "name": "@idomatic/parser-html",
+  "version": "1.0.35",
+  "description": "HTML/Vue/Angular parser for idomatic CLI",
+  "type": "module",
+  "main": "index.js",
+  "exports": {
+    "default": "./index.js"
+  },
+  "keywords": [
+    "idomatic",
+    "parser",
+    "html",
+    "vue",
+    "angular"
+  ],
+  "author": "Amar Smajlovic",
+  "license": "MIT",
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.12"
+  }
+}

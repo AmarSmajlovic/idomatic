@@ -1,0 +1,26 @@
+{
+  "name": "@idomatic/parser-js",
+  "version": "1.0.22",
+  "description": "JS/TSX parser for idomatic CLI",
+  "type": "module",
+  "main": "index.js",
+  "exports": {
+    ".": {
+      "import": "./index.js",
+      "require": "./index.js"
+    }
+  },
+  "keywords": [
+    "idomatic",
+    "parser",
+    "js",
+    "tsx",
+    "jsx",
+    "typescript"
+  ],
+  "author": "Amar Smajlovic",
+  "license": "MIT",
+  "dependencies": {
+    "recast": "^0.23.5"
+  }
+}

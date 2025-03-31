@@ -1,0 +1,20 @@
+{
+  "name": "@idomatic/create",
+  "version": "1.1.0",
+  "type": "module",
+  "bin": {
+    "@idomatic/create": "./index.js"
+  },
+  "keywords": [
+    "idomatic",
+    "init",
+    "create",
+    "ids",
+    "precommit"
+  ],
+  "license": "MIT",
+  "author": "Amar Smajlovic",
+  "dependencies": {
+    "prompts": "^2.4.2"
+  }
+}

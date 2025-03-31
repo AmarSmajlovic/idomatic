@@ -1,21 +1,7 @@
 {
-  "name": "@idomatic/core",
-  "version": "1.1.61",
-  "type": "module",
-  "bin": {
-    "idomatic": "./bin/index.js"
-  },
-  "dependencies": {
-    "globby": "^14.1.0",
-    "resolve-from": "^5.0.0"
-  },
-  "keywords": [
-    "idomatic",
-    "cli",
-    "ids",
-    "precommit",
-    "parser"
-  ],
-  "license": "MIT",
-  "author": "Amar Smajlovic"
+  "name": "idomatic-monorepo",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ]
 }
