@@ -1,7 +1,0 @@
-{
-  "name": "idomatic-monorepo",
-  "private": true,
-  "workspaces": [
-    "packages/*"
-  ]
-}
