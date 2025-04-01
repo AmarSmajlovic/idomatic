@@ -18,7 +18,7 @@ export default function Hero() {
             sanity.
           </p>
 
-          <TerminalBlock command={`npx @idomatic/core scan --dry`} />
+          <TerminalBlock command={`npm init @idomatic`} />
 
           {/* Get Started Button */}
           <Button className="bg-red-600 hover:bg-red-500 text-white text-bas mt-6  px-6 py-2 w-[190px]">
