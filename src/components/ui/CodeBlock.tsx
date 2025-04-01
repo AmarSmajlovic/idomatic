@@ -13,7 +13,7 @@ interface CodeBlockProps {
 export function CodeBlock({
   code,
   language = "tsx",
-  showLineNumbers = true,
+  showLineNumbers = false,
   className,
 }: CodeBlockProps) {
   return (

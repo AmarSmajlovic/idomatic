@@ -30,16 +30,26 @@ export default function Hero() {
         <div className="bg-zinc-800 border border-zinc-700 rounded-lg p-4">
           <p className="text-sm text-zinc-400 mb-2">Before:</p>
           <CodeBlock
-            code={`function Button() {
-  return <button>Click me</button>;
+            code={`function Example() {
+  return (
+    <div>
+      <p>Click the button below</p>
+      <button>Click me</button>
+    </div>
+  );
 }`}
             language="tsx"
           />
 
           <p className="text-sm text-zinc-400 mb-2">After:</p>
           <CodeBlock
-            code={`function Button() {
-  return <button>Click me</button>;
+            code={`function Example() {
+  return (
+    <div id="idomatic-1b9d6c88-32f1-11ec-8d3d-0242ac130003">
+      <p id="idomatic-1b9d6fa4-32f1-11ec-8d3d-0242ac130003">Click the button below</p>
+      <button id="idomatic-1b9d70da-32f1-11ec-8d3d-0242ac130003">Click me</button>
+    </div>
+  );
 }`}
             language="tsx"
           />
