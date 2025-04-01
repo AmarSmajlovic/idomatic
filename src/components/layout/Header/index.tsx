@@ -1,12 +1,12 @@
 "use client";
 
 import Link from "next/link";
-import dynamic from "next/dynamic";
+import { Github } from "lucide-react";
 
-const GithubIcon = dynamic(
-  () => import("lucide-react").then((mod) => mod.Github),
-  { ssr: false }
-);
+// const GithubIcon = dynamic(
+//   () => import("lucide-react").then((mod) => mod.Github),
+//   { ssr: false }
+// );
 
 const navItems = [{ label: "Docs", href: "/docs" }];
 
@@ -43,7 +43,7 @@ export default function Header() {
             target="_blank"
             className="flex items-center gap-2 text-sm text-zinc-200 hover:text-white transition-colors"
           >
-            <GithubIcon className="w-5 h-5" />
+            <Github suppressHydrationWarning className="w-5 h-5" />
             GitHub
           </Link>
         </div>

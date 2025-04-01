@@ -1,8 +1,10 @@
 import { Button } from "@/components/ui/button";
+import { CodeBlock } from "@/components/ui/CodeBlock";
+import { TerminalBlock } from "@/components/ui/TerminalBlock";
 
 export default function Hero() {
   return (
-    <section className=" text-white py-20 min-h-screen">
+    <section className=" text-white py-20 bg-zinc-900">
       <div className="mx-auto max-w-7xl px-4 grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
         {/* LEFT */}
         <div>
@@ -16,13 +18,10 @@ export default function Hero() {
             sanity.
           </p>
 
-          {/* NPM Install */}
-          <div className="bg-zinc-800 border border-zinc-600 rounded-md px-4 py-3 font-mono text-sm text-zinc-200 mb-4 w-[190px]">
-            npm init @idomatic
-          </div>
+          <TerminalBlock command={`npx @idomatic/core scan --dry`} />
 
           {/* Get Started Button */}
-          <Button className="bg-red-600 hover:bg-red-500 text-white text-base  px-6 py-2 w-[190px]">
+          <Button className="bg-red-600 hover:bg-red-500 text-white text-bas mt-6  px-6 py-2 w-[190px]">
             Get Started
           </Button>
         </div>
@@ -30,14 +29,20 @@ export default function Hero() {
         {/* RIGHT */}
         <div className="bg-zinc-800 border border-zinc-700 rounded-lg p-4">
           <p className="text-sm text-zinc-400 mb-2">Before:</p>
-          <pre className="bg-zinc-900 p-4 rounded-md text-sm overflow-auto mb-4">
-            {`<button>Click me</button>`}
-          </pre>
+          <CodeBlock
+            code={`function Button() {
+  return <button>Click me</button>;
+}`}
+            language="tsx"
+          />
 
           <p className="text-sm text-zinc-400 mb-2">After:</p>
-          <pre className="bg-zinc-900 p-4 rounded-md text-sm overflow-auto">
-            {`<button id="cta-click-me">Click me</button>`}
-          </pre>
+          <CodeBlock
+            code={`function Button() {
+  return <button>Click me</button>;
+}`}
+            language="tsx"
+          />
         </div>
       </div>
     </section>
