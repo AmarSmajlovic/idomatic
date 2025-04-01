@@ -55,10 +55,9 @@ const HowItWorks = () => {
           </CardHeader>
           <CardContent>
             <TerminalBlock command="npx @idomatic/core scan" className="mb-4" />
-            <TerminalBlock command="npx @idomatic/core scan --dry" />
             <p className="text-sm text-gray-500 mt-2">
               Run a full scan or preview which files will be modified using the{" "}
-              <code>--dry</code> flag.
+              <code className="font-semibold text-red-500">--dry</code> flag.
             </p>
           </CardContent>
         </Card>
