@@ -21,7 +21,7 @@ export default function Footer() {
           <ul className="space-y-2 text-sm">
             <li>
               <Link
-                href="https://github.com/idomatic/core"
+                href="https://github.com/AmarSmajlovic/idomatic"
                 target="_blank"
                 className="hover:underline flex items-center gap-2"
               >

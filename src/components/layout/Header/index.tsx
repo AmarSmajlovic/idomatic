@@ -3,11 +3,6 @@
 import Link from "next/link";
 import { Github } from "lucide-react";
 
-// const GithubIcon = dynamic(
-//   () => import("lucide-react").then((mod) => mod.Github),
-//   { ssr: false }
-// );
-
 const navItems = [{ label: "Docs", href: "/docs" }];
 
 export default function Header() {
@@ -39,7 +34,7 @@ export default function Header() {
 
           {/* GitHub CTA */}
           <Link
-            href="https://github.com/your-org/idomatic"
+            href="https://github.com/AmarSmajlovic/idomatic"
             target="_blank"
             className="flex items-center gap-2 text-sm text-zinc-200 hover:text-white transition-colors"
           >
