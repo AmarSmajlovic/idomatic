@@ -1,0 +1,39 @@
+---
+description: >
+  Idomatic is a CLI tool that automatically adds id attributes to your HTML/JSX/TSX components.
+  It improves testing and QA processes by ensuring that key elements always have unique, predictable identifiers.
+  Optimized for React and HTML-based projects (including Vue and Angular).
+---
+
+import { Cards, Image } from "nextra/components";
+import { cloneElement } from "react";
+
+export default function MdxLayout(props) {
+  return cloneElement(props.children, {
+    components: {
+      img: Image,
+    },
+  });
+}
+
+# Idomatic
+
+**Idomatic** is a CLI tool that automatically adds id attributes to your HTML/JSX/TSX components. It helps improve your testing and QA processes by ensuring that key elements always have unique, predictable identifiers.
+
+_Note: Idomatic is optimized for React and HTML-based projects (including Vue and Angular). During setup, you choose your framework, and the tool creates a default configuration accordingly._
+
+## Features
+
+- **Automatic ID Injection:** Scans your project files and injects id attributes into components that are missing them.
+- **Configurable Behavior:** Customize the prefix, specify file extensions, exclude certain tags, and more.
+- **Dry Run and Write Modes:** Preview changes before actually updating your files.
+- **Framework Specific Defaults:** Pre-populated configurations for React (JS/TSX) or HTML-based projects (HTML/Vue/Angular).
+- **Easy Integration:** Seamlessly integrate with your existing build or CI/CD processes.
+
+## Installation
+
+To install Idomatic, run the initializer command:
+
+```shell
+npm init @idomatic
+```

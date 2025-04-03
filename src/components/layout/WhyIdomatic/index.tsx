@@ -6,7 +6,9 @@ const WhyIdomatic = () => {
   return (
     <section className="py-20 px-6 bg-gray-50 ">
       <div className="max-w-6xl mx-auto text-center mb-12">
-        <h2 className="text-3xl font-semibold mb-2">Why use idomatic?</h2>
+        <h2 className="text-3xl font-semibold mb-2 text-black">
+          Why use idomatic?
+        </h2>
         <p className="text-gray-600">
           Speed up your test automation and maintain clean markup with zero
           effort.

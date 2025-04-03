@@ -8,7 +8,9 @@ const HowItWorks = () => {
   return (
     <section className="py-24 px-6 bg-gray-50 border-t">
       <div className="max-w-5xl mx-auto text-center mb-16">
-        <h2 className="text-4xl font-bold mb-4">How idomatic works</h2>
+        <h2 className="text-4xl font-bold mb-4 text-black">
+          How idomatic works
+        </h2>
         <p className="text-gray-600 text-lg">
           From install to improved markup — here’s how simple it is.
         </p>
@@ -21,7 +23,7 @@ const HowItWorks = () => {
           </CardHeader>
           <CardContent>
             <TerminalBlock command="npm init @idomatic" />
-            <p className="text-sm text-gray-500 mt-2">
+            <p className="text-sm  mt-2">
               Choose your framework: React/JSX or HTML/Vue/Angular. A config
               file is generated.
             </p>
@@ -42,7 +44,7 @@ const HowItWorks = () => {
   "excludeFiles": []
 }`}
             />
-            <p className="text-sm text-gray-500 mt-2">
+            <p className="text-sm  mt-2">
               Adjust the rules in <code>.idomatic.config.json</code> to match
               your project structure.
             </p>
@@ -55,9 +57,9 @@ const HowItWorks = () => {
           </CardHeader>
           <CardContent>
             <TerminalBlock command="npx @idomatic/core scan" className="mb-4" />
-            <p className="text-sm text-gray-500 mt-2">
+            <p className="text-sm  mt-2">
               Run a full scan or preview which files will be modified using the{" "}
-              <code className="font-semibold text-red-500">--dry</code> flag.
+              <code className="font-semibold text-gray-500">--dry</code> flag.
             </p>
           </CardContent>
         </Card>

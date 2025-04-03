@@ -5,7 +5,7 @@ const WhatItSupport = () => {
   return (
     <section className="py-24 px-6 bg-gray-50 border-t">
       <div className="max-w-5xl mx-auto text-center mb-16">
-        <h2 className="text-4xl font-bold mb-4">What it supports</h2>
+        <h2 className="text-4xl font-bold mb-4 text-black">What it supports</h2>
         <p className="text-gray-600 text-lg">
           IDomatic is built for the modern frontend ecosystem — with more
           support on the way.
@@ -20,11 +20,11 @@ const WhatItSupport = () => {
           </CardHeader>
           <CardContent>
             <ul className="list-disc list-inside text-gray-700 text-sm space-y-1">
-              <li>JavaScript / JSX / TSX</li>
-              <li>React & React Native</li>
-              <li>HTML</li>
-              <li>Vue</li>
-              <li>Angular</li>
+              <li className="text-white">JavaScript / JSX / TSX</li>
+              <li className="text-white">React & React Native</li>
+              <li className="text-white">HTML</li>
+              <li className="text-white">Vue</li>
+              <li className="text-white">Angular</li>
             </ul>
           </CardContent>
         </Card>
@@ -36,10 +36,10 @@ const WhatItSupport = () => {
           </CardHeader>
           <CardContent>
             <ul className="list-disc list-inside text-gray-700 text-sm space-y-1">
-              <li>Svelte</li>
-              <li>Astro</li>
-              <li>Handlebars</li>
-              <li>SolidJS</li>
+              <li className="text-white">Svelte</li>
+              <li className="text-white">Astro</li>
+              <li className="text-white">Handlebars</li>
+              <li className="text-white">SolidJS</li>
             </ul>
           </CardContent>
         </Card>
