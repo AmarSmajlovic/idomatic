@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://idomatic.dev
+
+# Sitemaps
+Sitemap: https://idomatic.dev/sitemap.xml
