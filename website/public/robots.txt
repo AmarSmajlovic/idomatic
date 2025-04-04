@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: idomatic-website.vercel.app
+
+# Sitemaps
+Sitemap: idomatic-website.vercel.app/sitemap.xml
