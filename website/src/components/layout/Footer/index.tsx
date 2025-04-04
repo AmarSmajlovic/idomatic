@@ -15,7 +15,7 @@ export default function Footer() {
           </p>
         </div>
 
-        {/* Useful Links */}
+        {/* Useful Links s*/}
         <div>
           <h4 className="text-white text-lg font-semibold mb-4">Links</h4>
           <ul className="space-y-2 text-sm">
