@@ -55,6 +55,7 @@ const banner = (
 );
 const navbar = (
   <Navbar
+    className="max-w-7xl!"
     logoLink="/"
     logo={
       <p className="text-white text-xl font-semibold tracking-tight no-underline">
