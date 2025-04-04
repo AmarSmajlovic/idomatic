@@ -3,7 +3,7 @@ User-agent: *
 Allow: /
 
 # Host
-Host: https://idomatic.dev
+Host: idomatic-website.vercel.app
 
 # Sitemaps
-Sitemap: https://idomatic.dev/sitemap.xml
+Sitemap: idomatic-website.vercel.app/sitemap.xml
