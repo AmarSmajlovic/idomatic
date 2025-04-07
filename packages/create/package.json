@@ -1,6 +1,6 @@
 {
   "name": "@idomatic/create",
-  "version": "1.1.1",
+  "version": "1.1.11",
   "type": "module",
   "bin": {
     "@idomatic/create": "./index.js"

@@ -4,14 +4,14 @@ const defaultConfigs = {
     prefix: "auto-id-",
     excludeTags: ["html", "head", "script"],
     includeExtensions: ["js", "jsx", "ts", "tsx"],
-    excludeFiles: [],
+    excludeFiles: ["node_modules", "public"],
   },
   html: {
     attributeName: "id",
     prefix: "auto-id-",
     excludeTags: ["html", "head", "script"],
     includeExtensions: ["html", "vue"],
-    excludeFiles: [],
+    excludeFiles: ["node_modules", "public"],
   },
 };
 

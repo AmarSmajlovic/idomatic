@@ -25,8 +25,10 @@ export async function processFile(filePath, config) {
     const resolvedPath = resolveFrom(process.cwd(), parserPackage);
     const resolvedURL = pathToFileURL(resolvedPath).href;
     const parser = await import(resolvedURL);
-    await parser.default(filePath, config);
-    console.log(`✅ Updated: ${filePath}`);
+    const wasUpdated = await parser.default(filePath, config);
+    if (wasUpdated) {
+      console.log(`✅ Updated: ${filePath}`);
+    }
   } catch (err) {
     console.error(
       `❌ Failed to load parser "${parserPackage}" for ${filePath}`
