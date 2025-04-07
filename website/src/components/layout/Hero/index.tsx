@@ -21,7 +21,8 @@ export default function Hero() {
           <TerminalBlock command={`npm init @idomatic`} />
 
           {/* Get Started Button */}
-          <Button className="bg-red-600 hover:bg-red-500 text-white text-bas mt-6  px-6 py-2 w-[190px]">
+
+          <Button className="bg-red-600 hover:bg-red-500 mt-3 text-white text-base px-6 py-2 w-[190px] h-[52px]">
             Get Started
           </Button>
         </div>

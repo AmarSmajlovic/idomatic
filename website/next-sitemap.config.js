@@ -1,5 +1,5 @@
 // next-sitemap.config.js
 module.exports = {
-  siteUrl: "idomatic-website.vercel.app",
+  siteUrl: "idomatic.dev",
   generateRobotsTxt: true,
 };

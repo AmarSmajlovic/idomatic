@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { Github, BookOpen, Mail, Package2, HeartHandshake } from "lucide-react";
+import { Github, BookOpen, Mail, Package2 } from "lucide-react";
+import BuyMeCoffeButton from "@/components/ui/BuyMeCoffeButton";
 
 export default function Footer() {
   return (
@@ -56,10 +57,10 @@ export default function Footer() {
           <ul className="space-y-2 text-sm">
             <li>
               <a
-                href="mailto:hey@idomatic.dev"
+                href="mailto:amarsmajlovic27@gmail.com"
                 className="hover:underline flex items-center gap-2"
               >
-                <Mail className="w-4 h-4" /> hey@idomatic.dev
+                <Mail className="w-4 h-4" /> amarsmajlovic27@gmail.com
               </a>
             </li>
           </ul>
@@ -70,14 +71,7 @@ export default function Footer() {
           <h4 className="text-white text-lg font-semibold mb-4">Support</h4>
           <ul className="space-y-2 text-sm">
             <li>
-              <a
-                href="https://www.buymeacoffee.com/amarjs"
-                target="_blank"
-                className="hover:underline flex items-center gap-2"
-              >
-                <HeartHandshake className="w-4 h-4 text-pink-400" /> Buy me a
-                coffee
-              </a>
+              <BuyMeCoffeButton />
             </li>
           </ul>
         </div>

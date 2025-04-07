@@ -62,7 +62,7 @@ const navbar = (
         <span className="text-red-600">#</span>IDomatic
       </p>
     }
-    projectLink="https://github.com/AmarSmajlovic/idomatic-website"
+    projectLink="https://github.com/AmarSmajlovic/idomatic"
   />
 );
 
@@ -78,7 +78,7 @@ const RootLayout: FC<{
           banner={banner}
           navbar={navbar}
           pageMap={pageMap}
-          docsRepositoryBase="https://github.com/AmarSmajlovic/idomatic-website/tree/main/src/app"
+          docsRepositoryBase="https://github.com/AmarSmajlovic/idomatic/blob/main/website"
           editLink="Edit this page on GitHub"
           sidebar={{ defaultMenuCollapseLevel: 1 }}
           footer={<Footer />}
