@@ -1,10 +1,14 @@
 {
   "name": "@idomatic/core",
-  "version": "1.1.61",
+  "version": "1.1.63",
   "type": "module",
   "bin": {
     "idomatic": "./bin/index.js"
   },
+  "files": [
+    "bin",
+    "lib"
+  ],
   "dependencies": {
     "globby": "^14.1.0",
     "resolve-from": "^5.0.0"
