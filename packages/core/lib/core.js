@@ -12,26 +12,26 @@ const parserMap = {
   ".ng.html": "@idomatic/parser-html",
 };
 
-export async function processFile(filePath, config) {
+export async function processFile(filePath, config, dry = false) {
   const ext = path.extname(filePath).toLowerCase();
   const parserPackage = parserMap[ext];
 
   if (!parserPackage) {
     console.warn(`⛔ Skipping unsupported file: ${filePath}`);
-    return;
+    return false;
   }
 
   try {
     const resolvedPath = resolveFrom(process.cwd(), parserPackage);
     const resolvedURL = pathToFileURL(resolvedPath).href;
     const parser = await import(resolvedURL);
-    const wasUpdated = await parser.default(filePath, config);
-    if (wasUpdated) {
-      console.log(`✅ Updated: ${filePath}`);
-    }
+
+    const result = await parser.default(filePath, config, dry);
+    return result;
   } catch (err) {
     console.error(
       `❌ Failed to load parser "${parserPackage}" for ${filePath}`
     );
+    return false;
   }
 }

@@ -1,6 +1,6 @@
 {
   "name": "@idomatic/core",
-  "version": "1.1.65",
+  "version": "1.1.68",
   "type": "module",
   "bin": {
     "idomatic": "./bin/index.js"

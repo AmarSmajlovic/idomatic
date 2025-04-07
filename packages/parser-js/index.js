@@ -6,7 +6,13 @@ import { createRequire } from "module";
 const require = createRequire(import.meta.url);
 const b = types.builders;
 
-export default function parseJS(filePath, config) {
+/**
+ * @param {string} filePath - Full path to file
+ * @param {object} config - iDomatic config
+ * @param {boolean} dry - Whether to skip writing to disk
+ * @returns {boolean} - True if the file would be (or was) updated
+ */
+export default function parseJS(filePath, config, dry = false) {
   const code = fs.readFileSync(filePath, "utf-8");
   let changed = false;
 
@@ -42,7 +48,7 @@ export default function parseJS(filePath, config) {
     },
   });
 
-  if (changed) {
+  if (changed && !dry) {
     const output = print(ast).code;
     fs.writeFileSync(filePath, output);
   }
