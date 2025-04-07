@@ -31,9 +31,9 @@ if (res.installParsers) {
   const parser =
     framework === "js" ? "@idomatic/parser-js" : "@idomatic/parser-html";
   const installParserCmd = {
-    npm: `npm install ${parser}`,
-    yarn: `yarn add ${parser}`,
-    bun: `bun add ${parser}`,
+    npm: `npm install ${parser} --save-dev`,
+    yarn: `yarn add ${parser} --dev`,
+    bun: `bun add -d ${parser}`,
   }[pkg];
 
   console.log(`📦 Installing ${parser} with ${pkg}...`);
@@ -42,9 +42,9 @@ if (res.installParsers) {
 
 // Install core package (always install it)
 const installCoreCmd = {
-  npm: `npm install @idomatic/core`,
-  yarn: `yarn add @idomatic/core`,
-  bun: `bun add @idomatic/core`,
+  npm: `npm install @idomatic/core --save-dev`,
+  yarn: `yarn add @idomatic/core --dev`,
+  bun: `bun add -d @idomatic/core`,
 }[pkg];
 
 console.log(`📦 Installing @idomatic/core with ${pkg}...`);
