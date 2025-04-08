@@ -1,7 +1,7 @@
 #!/usr/bin/env bun
 import prompts from "prompts";
 import { execSync } from "child_process";
-import { writeFileSync } from "fs";
+import { detectPackageManagerFallback } from "./utils/index.js";
 import initConfig from "./lib/initConfig.js";
 
 console.log("✨ Welcome to idomatic setup!");
@@ -21,10 +21,7 @@ const res = await prompts([
 ]);
 
 // Detect package manager
-const agent = process.env.npm_config_user_agent || "";
-let pkg = "npm";
-if (agent.includes("yarn")) pkg = "yarn";
-else if (agent.includes("bun")) pkg = "bun";
+const pkg = detectPackageManagerFallback();
 
 // Install parser if opted-in
 if (res.installParsers) {
