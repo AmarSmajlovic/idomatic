@@ -17,7 +17,6 @@
   "author": "Amar Smajlovic",
   "license": "MIT",
   "dependencies": {
-    "cheerio": "^1.0.0-rc.12",
     "magic-string": "^0.30.17"
   }
 }
