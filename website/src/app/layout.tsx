@@ -51,7 +51,9 @@ export const metadata: Metadata = {
 };
 
 const banner = (
-  <Banner dismissible={false}>🚀 IDomatic is live – check it out now!</Banner>
+  <Banner dismissible={false}>
+    🚀 You Code the Magic. We Handle the IDs. Welcome to IDomatic Docs!
+  </Banner>
 );
 const navbar = (
   <Navbar
