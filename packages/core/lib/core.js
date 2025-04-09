@@ -29,6 +29,7 @@ export async function processFile(filePath, config, dry = false) {
     const result = await parser.default(filePath, config, dry);
     return result;
   } catch (err) {
+    console.log(err);
     console.error(
       `❌ Failed to load parser "${parserPackage}" for ${filePath}`
     );

@@ -1,61 +1,32 @@
 import fs from "fs";
 import path from "path";
-import * as cheerio from "cheerio";
-import { randomUUID } from "crypto";
+import { templateRegex } from "./consts/index.js";
+import { processHtmlContent, processVueTemplate } from "./utils/index.js";
 
 /**
- * @param {string} filePath
- * @param {object} config
- * @param {boolean} dry
- * @returns {boolean}
+ * Parses an HTML/Vue file and updates its content with unique IDs.
+ *
+ * @param {string} filePath - The path to the file.
+ * @param {object} config - The configuration object.
+ * @param {boolean} dry - If true, does not write changes back to disk.
+ * @returns {boolean} - Returns true if changes were made.
  */
 export default async function parseHTML(filePath, config, dry = false) {
   const ext = path.extname(filePath).toLowerCase();
   const originalContent = fs.readFileSync(filePath, "utf-8");
   let updatedContent = originalContent;
 
-  const tagsToExclude = config.excludeTags || [];
-
-  const addIds = ($) => {
-    $("*").each((_, el) => {
-      const tag = el.name;
-      if (tagsToExclude.includes(tag)) return;
-      if (!$(el).attr(config.attributeName)) {
-        $(el).attr(config.attributeName, `${config.prefix}${randomUUID()}`);
-      }
-    });
-  };
-
   if (ext === ".vue") {
-    const templateRegex = /<template(?:\s[^>]*)?>([\s\S]*?)<\/template>/i;
     const match = originalContent.match(templateRegex);
-
     if (match) {
-      const $ = cheerio.load(match[1], { xmlMode: false });
-      addIds($);
-      const newTemplate = $.html();
+      const newTemplate = processVueTemplate(match[1], config);
       updatedContent = originalContent.replace(
         templateRegex,
         `<template>${newTemplate}</template>`
       );
     }
   } else if (ext === ".html" || ext === ".ng.html") {
-    const isFullDocument = originalContent
-      .trim()
-      .toLowerCase()
-      .startsWith("<html");
-
-    if (isFullDocument) {
-      const $ = cheerio.load(originalContent, { xmlMode: false });
-      addIds($);
-      updatedContent = $.html();
-    } else {
-      const $ = cheerio.load(`<div id="fragment">${originalContent}</div>`, {
-        xmlMode: false,
-      });
-      addIds($);
-      updatedContent = $("#fragment").html();
-    }
+    updatedContent = processHtmlContent(originalContent, config);
   }
 
   if (updatedContent !== originalContent) {
@@ -64,6 +35,5 @@ export default async function parseHTML(filePath, config, dry = false) {
     }
     return true;
   }
-
   return false;
 }
