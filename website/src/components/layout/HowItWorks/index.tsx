@@ -56,7 +56,7 @@ const HowItWorks = () => {
             <ArrowRightCircle className="w-5 h-5 text-gray-400" />
           </CardHeader>
           <CardContent>
-            <TerminalBlock command="npx @idomatic/core scan" className="mb-4" />
+            <TerminalBlock command="npx idomatic scan" className="mb-4" />
             <p className="text-sm  mt-2">
               Run a full scan or preview which files will be modified using the{" "}
               <code className="font-semibold text-gray-500">--dry</code> flag.
