@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { CodeBlock } from "@/components/ui/CodeBlock";
 import { TerminalBlock } from "@/components/ui/TerminalBlock";
+import Link from "next/link";
 
 export default function Hero() {
   return (
@@ -22,9 +23,11 @@ export default function Hero() {
 
           {/* Get Started Button */}
 
-          <Button className="bg-red-600 hover:bg-red-500 mt-3 text-white text-base px-6 py-2 w-[190px] h-[52px]">
-            Get Started
-          </Button>
+          <Link href="/docs#installation">
+            <Button className="bg-red-600 cursor-pointer hover:bg-red-500 mt-3 text-white text-base px-6 py-2 w-[190px] h-[52px]">
+              Get Started
+            </Button>
+          </Link>
         </div>
 
         {/* RIGHT */}
