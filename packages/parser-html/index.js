@@ -11,6 +11,7 @@ import { processHtmlContent, processVueTemplate } from "./utils/index.js";
  * @param {boolean} dry - If true, does not write changes back to disk.
  * @returns {boolean} - Returns true if changes were made.
  */
+
 export default async function parseHTML(filePath, config, dry = false) {
   const ext = path.extname(filePath).toLowerCase();
   const originalContent = fs.readFileSync(filePath, "utf-8");

@@ -1,41 +1,68 @@
-import * as cheerio from "cheerio";
-import { addIds } from "../helpers/index.js";
+import MagicString from "magic-string";
+import { randomUUID } from "crypto";
+import { TAG_REGEX } from "../consts/index.js";
 
 /**
- * Processes a Vue template content.
+ * Processes a Vue template content by inserting unique IDs while preserving formatting.
+ *
  * @param {string} templateContent - The content inside the Vue <template> tag.
  * @param {object} config - The configuration object.
+ * @param {string} config.attributeName - The attribute name to add (e.g. "id" or "data-id").
+ * @param {string} config.prefix - The prefix for generated IDs.
+ * @param {string[]} [config.excludeTags] - An array of tag names to exclude (optional).
  * @returns {string} - The updated template content.
  */
 export function processVueTemplate(templateContent, config) {
-  const $ = cheerio.load(templateContent, { xmlMode: true });
-  // For Vue files, addIds might not need the config if handled differently;
-  // adjust as needed.
-  addIds($, config);
-  return $.html();
+  const { attributeName, prefix, excludeTags = [] } = config;
+  const ms = new MagicString(templateContent);
+
+  let match;
+  while ((match = TAG_REGEX.exec(templateContent)) !== null) {
+    const fullMatch = match[0];
+    const tagName = match[1];
+    const attributesStr = match[2];
+    const selfClosing = match[3] || "";
+
+    if (excludeTags.includes(tagName)) continue;
+
+    const idRegex = new RegExp(`\\s${attributeName}\\s*=`);
+    if (idRegex.test(attributesStr)) continue;
+
+    const insertPosition =
+      match.index + fullMatch.length - (selfClosing.length + 1);
+    ms.appendLeft(
+      insertPosition,
+      ` ${attributeName}="${prefix}${randomUUID()}"`
+    );
+  }
+
+  return ms.toString();
 }
 
-/**
- * Processes HTML content (full document or fragment) by adding IDs.
- *
- * @param {string} htmlContent - The original HTML content.
- * @param {object} config - The configuration object.
- * @returns {string} - The updated HTML content.
- */
 export function processHtmlContent(htmlContent, config) {
-  // Determine if we have a full document
-  const isFullDocument = htmlContent.trim().toLowerCase().startsWith("<html");
+  const { attributeName, prefix, excludeTags = [] } = config;
+  const ms = new MagicString(htmlContent);
 
-  if (isFullDocument) {
-    const $ = cheerio.load(htmlContent, { xmlMode: true });
-    addIds($, config);
-    return $.html();
-  } else {
-    // Wrap the fragment to ensure Cheerio parses it properly.
-    const $ = cheerio.load(`<div id="fragment">${htmlContent}</div>`, {
-      xmlMode: true,
-    });
-    addIds($, config);
-    return $("#fragment").html();
+  const tagRegex = /<([a-zA-Z][^\s/>]*)([^>]*?)(\/?)>/g;
+  let match;
+  while ((match = tagRegex.exec(htmlContent)) !== null) {
+    const fullMatch = match[0];
+    const tagName = match[1];
+    const attributesStr = match[2];
+    const selfClosing = match[3] || "";
+
+    if (excludeTags.includes(tagName)) continue;
+
+    const idRegex = new RegExp(`\\s${attributeName}\\s*=`);
+    if (idRegex.test(attributesStr)) continue;
+
+    const insertPosition =
+      match.index + fullMatch.length - (selfClosing.length + 1);
+    ms.appendLeft(
+      insertPosition,
+      ` ${attributeName}="${prefix}${randomUUID()}"`
+    );
   }
+
+  return ms.toString();
 }
