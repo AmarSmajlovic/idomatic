@@ -5,6 +5,7 @@ import { getPageMap } from "nextra/page-map";
 import type { FC, ReactNode } from "react";
 import "./globals.css";
 import Footer from "@/components/layout/Footer";
+import { Analytics } from "@vercel/analytics/next";
 
 export const metadata: Metadata = {
   description:
@@ -87,6 +88,7 @@ const RootLayout: FC<{
         >
           {children}
         </Layout>
+        <Analytics />
       </body>
     </html>
   );
