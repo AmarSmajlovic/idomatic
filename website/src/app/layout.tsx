@@ -88,6 +88,7 @@ const RootLayout: FC<{
         >
           {children}
         </Layout>
+        {/* Analytics */}
         <Analytics />
       </body>
     </html>
