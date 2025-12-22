@@ -15,7 +15,7 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "lucide-react": "^0.486.0",
-    "next": "15.2.4",
+    "next": "15.2.8",
     "nextra": "^4.2.17",
     "nextra-theme-docs": "^4.2.17",
     "postcss": "^8.5.3",
