@@ -1,0 +1,18 @@
+# Local testing directory
+local-test/
+test-project/
+
+# Development notes (optional - uncomment if you want them private)
+# testing-plan.md
+# DEVELOPMENT-ROADMAP.md
+
+# Node modules
+node_modules/
+
+# OS files
+.DS_Store
+*.log
+
+# IDE
+.vscode/
+.idea/

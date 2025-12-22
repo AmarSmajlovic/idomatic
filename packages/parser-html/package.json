@@ -1,6 +1,6 @@
 {
   "name": "@idomatic/parser-html",
-  "version": "1.0.42",
+  "version": "1.0.43",
   "description": "HTML/Vue/Angular parser for idomatic CLI",
   "type": "module",
   "main": "index.js",

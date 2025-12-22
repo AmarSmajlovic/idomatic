@@ -1,6 +1,6 @@
 import fs from "fs";
 import path from "path";
-import { templateRegex } from "./consts/index.js";
+import { TEMPLATE_REGEX as templateRegex } from "./consts/index.js";
 import { processHtmlContent, processVueTemplate } from "./utils/index.js";
 
 /**
