@@ -6,9 +6,30 @@ toc: true
 
 # Idomatic
 
-Idomatic is a CLI tool that automatically injects `id` attributes into your HTML/JSX/TSX components.
+Idomatic is a CLI tool that automatically injects `id` attributes into your HTML/JSX/TSX/Vue/Angular components.
 
-It helps ensure better testability, maintainability, and traceability in your codebase by adding stable, unique `id` attributes where they’re missing.
+It helps ensure better testability, maintainability, and traceability in your codebase by adding stable, unique `id` attributes where they're missing.
+
+---
+
+## Why Idomatic?
+
+### The Problem
+
+When writing frontend code, developers often forget to add `id` attributes to elements. This causes problems when:
+
+- **Writing E2E tests** - Selectors like `.btn-primary` are fragile and break when styles change
+- **Debugging** - Finding elements in DevTools is harder without meaningful identifiers
+- **Accessibility** - Labels need `for` attributes that reference element IDs
+- **Analytics** - Tracking tools need stable identifiers for click tracking
+
+### The Solution
+
+Idomatic automatically scans your codebase and adds `id` attributes to elements that don't have them. It's:
+
+- **Non-destructive** - Only adds IDs where missing, never modifies existing ones
+- **Configurable** - Customize prefix, attribute name, excluded tags, and more
+- **Framework-agnostic** - Works with React, Vue, Angular, and plain HTML
 
 ---
 
@@ -20,31 +41,78 @@ To install Idomatic, run the initializer:
 npm init @idomatic
 ```
 
-This command creates a `.idomatic.config.json` configuration file tailored to your tech stack (React, HTML, Vue, etc).
+This command will:
+1. Ask you which framework you're using (React, Vue, Angular, HTML)
+2. Create a `.idomatic.config.json` configuration file
+3. Add recommended scripts to your `package.json`
+
+### Manual Installation
+
+If you prefer manual setup:
+
+```bash
+npm install -D @idomatic/core
+```
+
+Then create `.idomatic.config.json` in your project root.
 
 ---
 
-## Scripts
+## Quick Start
 
-You can define Idomatic scripts in your `package.json`:
+### 1. Initialize
 
-```json
-{
-  "scripts": {
-    "scan": "idomatic scan",
-    "scan:dry": "idomatic scan --dry"
-  }
-}
+```bash
+npm init @idomatic
 ```
 
-### `scan`
+### 2. Preview Changes (Dry Run)
+
+```bash
+npx idomatic scan --dry
+```
+
+This shows which files would be modified without actually changing them.
+
+### 3. Apply Changes
+
+```bash
+npx idomatic scan
+```
+
+This scans your files and injects missing `id` attributes.
+
+---
+
+## CLI Commands
+
+### `idomatic scan`
 
 Scans your files and injects missing `id` attributes based on your config.
-It modifies source files directly.
 
-### `scan:dry`
+```bash
+npx idomatic scan
+```
 
-Dry run mode – logs which files **would be updated**, but doesn’t write anything to disk. Useful for CI or testing changes.
+**Options:**
+
+| Flag | Description |
+|------|-------------|
+| `--dry` | Preview changes without modifying files |
+| `--verbose` | Show detailed output |
+
+### `idomatic scan --dry`
+
+Dry run mode – logs which files **would be updated**, but doesn't write anything to disk.
+
+```bash
+npx idomatic scan --dry
+```
+
+This is useful for:
+- CI/CD pipelines to check for missing IDs
+- Previewing changes before applying them
+- Testing your configuration
 
 ---
 
@@ -52,70 +120,356 @@ Dry run mode – logs which files **would be updated**, but doesn’t write anyt
 
 Idomatic uses a `.idomatic.config.json` config file to customize how and where IDs are applied.
 
-### Example `.idomatic.config.json`
+### Full Configuration Example
 
 ```json
 {
-  "prefix": "idomatic-",
+  "prefix": "auto-id-",
   "attributeName": "id",
   "includeExtensions": ["js", "jsx", "ts", "tsx", "html", "vue"],
-  "excludeFiles": ["node_modules", "dist"],
+  "excludeFiles": ["node_modules", "dist", "build", ".next"],
+  "excludeTags": ["html", "head", "meta", "link", "script", "style", "br", "hr"]
+}
+```
+
+### Configuration Options
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `prefix` | `string` | `"idomatic-"` | Prefix added before generated UUIDs |
+| `attributeName` | `string` | `"id"` | Attribute to inject (`id`, `data-testid`, `data-cy`, etc.) |
+| `includeExtensions` | `string[]` | `["html"]` | File extensions to scan |
+| `excludeFiles` | `string[]` | `["node_modules"]` | Directories or files to ignore (supports glob patterns) |
+| `excludeTags` | `string[]` | `["html", "head"]` | HTML tags that should be skipped |
+
+---
+
+## Configuration Examples
+
+### React/JSX Project
+
+```json
+{
+  "prefix": "app-",
+  "attributeName": "id",
+  "includeExtensions": ["jsx", "tsx"],
+  "excludeFiles": ["node_modules", "dist", ".next", "__tests__"],
   "excludeTags": ["html", "head", "meta", "link", "script", "style"]
 }
 ```
 
-### Explanation
+### Vue Project
 
-⚠️
+```json
+{
+  "prefix": "vue-",
+  "attributeName": "id",
+  "includeExtensions": ["vue"],
+  "excludeFiles": ["node_modules", "dist"],
+  "excludeTags": ["html", "head", "meta", "link", "script", "style", "template"]
+}
+```
 
-- The new **Angular and Vue Considerations** section provides guidance tailored for both frameworks.
-- Angular guidance emphasizes external HTML files via `templateUrl`, ensuring that Idomatic picks up the component templates.
-- Vue guidance reassures that the `<template>` block is processed correctly—but advises caution if using inline templates.
+### Angular Project
 
-### Option Reference
+```json
+{
+  "prefix": "ng-",
+  "attributeName": "id",
+  "includeExtensions": ["html"],
+  "excludeFiles": ["node_modules", "dist", "e2e"],
+  "excludeTags": ["html", "head", "meta", "link", "script", "style", "ng-container", "ng-template"]
+}
+```
 
-| Key                 | Description                                                      |
-| ------------------- | ---------------------------------------------------------------- |
-| `prefix`            | Prefix used before generated UUIDs.                              |
-| `attributeName`     | Attribute to inject (default: `id`, or use `data-testid`, etc.). |
-| `includeExtensions` | File extensions to scan.                                         |
-| `excludeFiles`      | Directories or files to ignore (supports glob).                  |
-| `excludeTags`       | Tags that should be skipped when injecting IDs.                  |
+### Using data-testid (for Testing)
+
+```json
+{
+  "prefix": "test-",
+  "attributeName": "data-testid",
+  "includeExtensions": ["jsx", "tsx"],
+  "excludeFiles": ["node_modules"],
+  "excludeTags": ["html", "head", "script", "style"]
+}
+```
+
+### Using data-cy (for Cypress)
+
+```json
+{
+  "prefix": "",
+  "attributeName": "data-cy",
+  "includeExtensions": ["jsx", "tsx", "vue"],
+  "excludeFiles": ["node_modules", "cypress"],
+  "excludeTags": ["html", "head", "script", "style"]
+}
+```
 
 ---
 
-## Examples
+## Framework Guides
 
-### JSX Before
+### React / JSX / TSX
 
+Idomatic works seamlessly with React components:
+
+**Before:**
 ```tsx
-<div>
-  <button>Submit</button>
+function LoginForm() {
+  return (
+    <form>
+      <input type="email" placeholder="Email" />
+      <input type="password" placeholder="Password" />
+      <button type="submit">Login</button>
+    </form>
+  );
+}
+```
+
+**After:**
+```tsx
+function LoginForm() {
+  return (
+    <form id="auto-id-a1b2c3">
+      <input id="auto-id-d4e5f6" type="email" placeholder="Email" />
+      <input id="auto-id-g7h8i9" type="password" placeholder="Password" />
+      <button id="auto-id-j0k1l2" type="submit">Login</button>
+    </form>
+  );
+}
+```
+
+### Vue
+
+Idomatic processes Vue Single File Components (`.vue` files):
+
+**Before:**
+```vue
+<template>
+  <div class="card">
+    <h2>{{ title }}</h2>
+    <p>{{ description }}</p>
+    <button @click="handleClick">Action</button>
+  </div>
+</template>
+```
+
+**After:**
+```vue
+<template>
+  <div id="auto-id-m3n4o5" class="card">
+    <h2 id="auto-id-p6q7r8">{{ title }}</h2>
+    <p id="auto-id-s9t0u1">{{ description }}</p>
+    <button id="auto-id-v2w3x4" @click="handleClick">Action</button>
+  </div>
+</template>
+```
+
+### Angular
+
+For Angular, Idomatic processes external HTML template files:
+
+**Before (`component.html`):**
+```html
+<div class="container">
+  <h1>{{ heading }}</h1>
+  <input [(ngModel)]="searchTerm" placeholder="Search...">
+  <button (click)="onSearch()">Search</button>
 </div>
 ```
 
-### JSX After `idomatic scan`
-
-```tsx
-<div id="idomatic-uuid">
-  <button id="idomatic-uuid">Submit</button>
+**After:**
+```html
+<div id="auto-id-y5z6a7" class="container">
+  <h1 id="auto-id-b8c9d0">{{ heading }}</h1>
+  <input id="auto-id-e1f2g3" [(ngModel)]="searchTerm" placeholder="Search...">
+  <button id="auto-id-h4i5j6" (click)="onSearch()">Search</button>
 </div>
+```
+
+**Note:** Make sure your Angular components use `templateUrl` to reference external HTML files.
+
+### Plain HTML
+
+**Before:**
+```html
+<section class="hero">
+  <h1>Welcome</h1>
+  <p>This is the hero section</p>
+  <a href="/signup" class="btn">Get Started</a>
+</section>
+```
+
+**After:**
+```html
+<section id="auto-id-k7l8m9" class="hero">
+  <h1 id="auto-id-n0o1p2">Welcome</h1>
+  <p id="auto-id-q3r4s5">This is the hero section</p>
+  <a id="auto-id-t6u7v8" href="/signup" class="btn">Get Started</a>
+</section>
 ```
 
 ---
 
-### HTML Before
+## CI/CD Integration
 
-```html
-<section>
-  <p>Hello world</p>
-</section>
+### GitHub Actions
+
+Add Idomatic to your CI pipeline to ensure all new code has proper IDs:
+
+```yaml
+name: Check IDs
+
+on: [push, pull_request]
+
+jobs:
+  check-ids:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+      - run: npm ci
+      - run: npx idomatic scan --dry
 ```
 
-### HTML After
+The `--dry` flag will exit with a non-zero code if any files would be modified, failing the CI check.
 
-```html
-<section id="idomatic-uuid">
-  <p id="idomatic-uuid">Hello world</p>
-</section>
+### Pre-commit Hook
+
+Use Husky to run Idomatic before each commit:
+
+```bash
+npm install -D husky
+npx husky init
+echo "npx idomatic scan" > .husky/pre-commit
 ```
+
+---
+
+## Best Practices
+
+### 1. Use Meaningful Prefixes
+
+Choose a prefix that identifies your project or component:
+
+```json
+{
+  "prefix": "myapp-"
+}
+```
+
+### 2. Exclude Test Files
+
+Don't add IDs to test files:
+
+```json
+{
+  "excludeFiles": ["__tests__", "*.test.tsx", "*.spec.ts"]
+}
+```
+
+### 3. Use data-testid for Testing
+
+If you're using Testing Library, use `data-testid`:
+
+```json
+{
+  "attributeName": "data-testid"
+}
+```
+
+### 4. Run Dry Mode First
+
+Always preview changes before applying:
+
+```bash
+npx idomatic scan --dry
+```
+
+### 5. Add to CI/CD
+
+Ensure all new code has IDs by adding Idomatic to your pipeline.
+
+---
+
+## Troubleshooting
+
+### IDs not being added
+
+1. Check that your file extension is in `includeExtensions`
+2. Verify the file isn't in `excludeFiles`
+3. Make sure the tag isn't in `excludeTags`
+
+### Existing IDs being overwritten
+
+Idomatic **never** overwrites existing IDs. If you're seeing this, check if:
+- The element truly had an ID before
+- You're looking at the correct file
+
+### Config not being read
+
+Make sure `.idomatic.config.json` is in your project root (same level as `package.json`).
+
+---
+
+## Package Scripts
+
+Add these scripts to your `package.json` for convenience:
+
+```json
+{
+  "scripts": {
+    "ids": "idomatic scan",
+    "ids:check": "idomatic scan --dry",
+    "ids:verbose": "idomatic scan --verbose"
+  }
+}
+```
+
+Then run:
+
+```bash
+npm run ids        # Apply IDs
+npm run ids:check  # Preview changes
+```
+
+---
+
+## FAQ
+
+### Does Idomatic modify existing IDs?
+
+No. Idomatic only adds IDs to elements that don't already have one.
+
+### Can I use a custom attribute like data-testid?
+
+Yes! Set `attributeName` in your config:
+
+```json
+{
+  "attributeName": "data-testid"
+}
+```
+
+### Does it work with TypeScript?
+
+Yes. Idomatic supports `.ts` and `.tsx` files.
+
+### Is it safe to run on production code?
+
+Yes. We recommend using `--dry` first to preview changes. Idomatic is non-destructive.
+
+### How are IDs generated?
+
+IDs are generated using UUIDs prefixed with your configured prefix.
+
+---
+
+## Support
+
+- **GitHub Issues:** [Report a bug](https://github.com/AmarSmajlovic/idomatic/issues)
+- **GitHub Discussions:** [Ask a question](https://github.com/AmarSmajlovic/idomatic/discussions)
+- **Email:** amarsmajlovic27@gmail.com
