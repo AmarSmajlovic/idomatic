@@ -1,19 +1,17 @@
 # CodeRabbit Configuration
-# For more information, visit https://docs.coderabbit.ai/getting-started/configure-coderabbit
+# Revised structure based on current validation requirements
 
-version: "1.0"
-coderabbit:
-  language: "en-US"
-  reviews:
-    profile: "assertive" # High standards for code quality
-    collapse_walkthrough: false
-    auto_review:
-      enabled: true
-      ignore_title_keywords: ["WIP", "draft"]
-    tools:
-      shellcheck:
-        enabled: true
-      linters:
-        enabled: true
-  chat:
+language: "en-US"
+reviews:
+  profile: "assertive"
+  collapse_walkthrough: false
+  auto_review:
     enabled: true
+    ignore_title_keywords: ["WIP", "draft"]
+  tools:
+    shellcheck:
+      enabled: true
+    linters:
+      enabled: true
+chat:
+  enabled: true
