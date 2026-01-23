@@ -1,5 +1,5 @@
 # CodeRabbit Configuration
-# Revised structure based on current validation requirements
+# Simplified to match the latest schema requirements
 
 language: "en-US"
 reviews:
@@ -11,7 +11,3 @@ reviews:
   tools:
     shellcheck:
       enabled: true
-    linters:
-      enabled: true
-chat:
-  enabled: true
