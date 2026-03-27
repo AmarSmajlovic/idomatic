@@ -1,6 +1,5 @@
 import MagicString from "magic-string";
 import { randomUUID } from "crypto";
-import { TAG_REGEX } from "../consts/index.js";
 
 /**
  * Processes a Vue template content by inserting unique IDs while preserving formatting.
@@ -16,8 +15,9 @@ export function processVueTemplate(templateContent, config) {
   const { attributeName, prefix, excludeTags = [] } = config;
   const ms = new MagicString(templateContent);
 
+  const tagRegex = /<([a-zA-Z][^\s/>]*)([^>]*?)(\/?)>/g;
   let match;
-  while ((match = TAG_REGEX.exec(templateContent)) !== null) {
+  while ((match = tagRegex.exec(templateContent)) !== null) {
     const fullMatch = match[0];
     const tagName = match[1];
     const attributesStr = match[2];
