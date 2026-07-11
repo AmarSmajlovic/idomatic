@@ -1,9 +1,8 @@
-import excludeFiles from "./excludeFiles.js";
+import excludeFiles from "./ignoredFiles.js";
 
 const defaultConfig = {
-  attributeName: "id",
-  prefix: "auto-id-",
-  // pattern: "[component]-[tag]-[index]",
+  attributeName: "data-testid",
+  prefix: "",
   excludeTags: [], //html,head,script...
   includeExtensions: ["js", "jsx", "ts", "tsx"],
   excludeFiles: excludeFiles,
