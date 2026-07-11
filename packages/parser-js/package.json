@@ -1,9 +1,13 @@
 {
   "name": "@idomatic/parser-js",
-  "version": "1.0.24",
+  "version": "1.1.0",
   "description": "JS/TSX parser for idomatic CLI",
   "type": "module",
   "main": "index.js",
+  "files": [
+    "index.js",
+    "idGen.js"
+  ],
   "exports": {
     ".": {
       "import": "./index.js",
@@ -16,11 +20,24 @@
     "js",
     "tsx",
     "jsx",
-    "typescript"
+    "typescript",
+    "react",
+    "data-testid",
+    "test-automation",
+    "playwright",
+    "cypress",
+    "testing-library"
   ],
   "author": "Amar Smajlovic",
   "license": "MIT",
+  "scripts": {
+    "test": "vitest run"
+  },
   "dependencies": {
+    "@babel/parser": "^7.22.5",
     "recast": "^0.23.5"
+  },
+  "devDependencies": {
+    "vitest": "^2.1.8"
   }
 }
