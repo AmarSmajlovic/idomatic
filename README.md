@@ -1,104 +1,91 @@
-IDomatic
-idomatic is a CLI tool that automatically adds id attributes to your HTML/JSX/TSX components. It helps improve your testing and QA processes by ensuring that key elements always have unique, predictable identifiers.
+# idomatic
 
-Note: idomatic is optimized for React and HTML-based projects (including Vue and Angular). You can choose your framework during setup, and the tool will create a default configuration accordingly.
+**Automatically add stable `data-testid` selectors to your components — so your Playwright, Cypress and Testing Library tests stop breaking.**
+
+[![CI](https://github.com/AmarSmajlovic/idomatic/actions/workflows/ci.yml/badge.svg)](https://github.com/AmarSmajlovic/idomatic/actions/workflows/ci.yml)
+[![npm](https://img.shields.io/npm/v/@idomatic/core.svg)](https://www.npmjs.com/package/@idomatic/core)
+[![license](https://img.shields.io/npm/l/@idomatic/core.svg)](./LICENSE)
+
+idomatic is a CLI that scans your React/HTML/Vue/Angular code and injects **human-readable, stable** test selectors into elements that are missing them. No more brittle CSS/XPath selectors, no more `nth-child`, no more tests that break when you reorder a `<div>`.
+
+<p align="center">
+  <img src="./docs/demo.gif" alt="idomatic adding data-testid selectors to a React component" width="820" />
+</p>
+
+## Why
+
+E2E tests break because they target selectors that were never meant to be stable — classes, text, DOM position. The fix is a dedicated `data-testid` on every element you test. Adding those by hand across a codebase is tedious, so most teams don't. idomatic does it for you, and the ids it generates are **readable and deterministic**:
+
+```jsx
+// before
+<button aria-label="Submit login">Log in</button>
+<input name="email" placeholder="Email address" />
+
+// after `npx idomatic scan --write`
+<button aria-label="Submit login" data-testid="button-submit-login">Log in</button>
+<input name="email" placeholder="Email address" data-testid="input-email" />
+```
+
+Then in your tests:
+
+```ts
+await page.getByTestId("button-submit-login").click();
+```
 
 ## Features
 
-Automatic ID Injection: Scans your project files and injects id attributes into components that are missing them.
-
-Configurable Behavior: Customize the prefix, specify file extensions, exclude certain tags, and more.
-
-Dry Run and Write Modes: Preview changes before actually updating your files.
-
-Framework Specific Defaults: Pre-populated configurations for React (JS/TSX) or HTML-based projects (HTML/Vue/Angular).
-
-Easy Integration: Use with your existing build or CI/CD processes.
+- **Semantic ids** — derived from the element's `aria-label`, `name`, `placeholder`, `alt`, text content or tag, not random UUIDs.
+- **Idempotent** — re-running never renames or duplicates an existing id, so diffs stay clean and it's safe in CI.
+- **Framework-aware** — React (JS/JSX/TS/TSX) via a real AST parser; HTML, Vue and Angular templates too.
+- **Dry-run first** — preview every change before touching a file.
+- **Configurable** — change the attribute name, add a prefix/namespace, exclude tags or files.
 
 ## Installation
-
-To install idomatic, simply run the initializer command:
 
 ```shell
 npm init @idomatic
 ```
 
-This command will guide you through selecting your framework and automatically install the necessary configuration file and parser for your project. The default configuration file (e.g., .idomatic.config.json) will be created in your project's root.
+This walks you through picking your framework, installs the right parser, and creates a `.idomatic.config.json` in your project root.
 
 ## Usage
 
-CLI Commands
-After installation and configuration, you can run idomatic using the following commands:
-
-Dry Run: Preview the changes without modifying any files.
-
 ```shell
-npx idomatic scan --dry
+npx idomatic scan --dry     # preview changes without writing
+npx idomatic scan --write   # apply changes
 ```
 
-Write Mode: Apply the changes to your files.
+Running `npx idomatic scan` with no flag prints usage.
 
-```shell
-npx idomatic scan --write
-```
+## Configuration
 
-If you run npx idomatic scan without any flags, a usage message will be shown.
+`.idomatic.config.json` is created during setup. The default targets `data-testid` with no prefix:
 
-Configuration File
-The configuration file .idomatic.config.json is created during the setup process. Here is an example configuration for a React project:
-
-```js
+```json
 {
-"attributeName": "id",
-"prefix": "auto-id-",
-"excludeTags": ["html", "head", "script"],
-"includeExtensions": ["js", "jsx", "ts", "tsx"],
-"excludeFiles": []
+  "attributeName": "data-testid",
+  "prefix": "",
+  "excludeTags": ["html", "head", "script"],
+  "includeExtensions": ["js", "jsx", "ts", "tsx"],
+  "excludeFiles": ["node_modules", "public"]
 }
 ```
 
-You can customize these values to better suit your project’s needs. For HTML/Vue/Angular projects, the includeExtensions field will be set to ["html", "vue", "ng.html"].
+- **`attributeName`** — the attribute to inject (`data-testid`, `data-test`, `id`, …).
+- **`prefix`** — optional namespace, e.g. `"qa-"` → `qa-button-submit`. Leave empty for clean ids.
+- **`excludeTags`** — tags to skip.
+- **`includeExtensions`** — for HTML/Vue/Angular this is `["html", "vue", "ng.html"]`.
+- **`excludeFiles`** — directories to ignore.
 
-⚠️ Angular Users:
-It is recommended to use templateUrl with a separate .html file rather than defining inline templates in .ts files.
-idomatic processes external HTML templates correctly but does not support inline templates in Angular components. Using templateUrl ensures your component's HTML is picked up during scanning.
+## How it works
 
-## How It Works
+1. **Setup** — `npm init @idomatic` picks your framework and writes the config.
+2. **Scan** — idomatic finds files matching your extensions (respecting `.gitignore`).
+3. **Parse** — `@idomatic/parser-js` rewrites JS/JSX/TSX through an AST (recast + Babel); `@idomatic/parser-html` rewrites HTML/Vue/Angular templates while preserving formatting.
+4. **Write** — an id is added only to elements that don't already have one, using a name derived from context and made unique on collision.
 
-Setup:
-Run the setup command (e.g npm init @idomatic) to choose your framework and create a configuration file.
+> **Angular:** use `templateUrl` with a separate `.html` file. idomatic processes external templates but not inline templates defined in `.ts` files.
 
-Scanning:
-The tool uses your configuration to search for files matching the specified extensions.
+## Contributing
 
-Dry Run: Lists the files that would be processed without modifying them.
-
-Write Mode: Processes each file, adding id attributes where needed.
-
-Parsing:
-Depending on the file type, idomatic imports the appropriate parser (@idomatic/parser-js for JavaScript/JSX/TSX or @idomatic/parser-html for HTML-based files) to modify your code using an Abstract Syntax Tree (AST).
-
-## Example
-
-Imagine you have a React component without an id attribute:
-
-```js
-function Button() {
-  return <button>Click me</button>;
-}
-```
-
-After running idomatic in write mode, the component might be transformed to:
-
-```js
-function Button() {
-  return (
-    <button id="auto-id-123e4567-e89b-12d3-a456-426614174000">Click me</button>
-  );
-}
-```
-
-The generated id includes a prefix (from the configuration) and a unique identifier.
-
-Contributing
-Contributions are welcome! Feel free to open issues or pull requests on GitHub.
+Contributions welcome — open an issue or PR. Run the parser tests with `npm test` inside `packages/parser-js` or `packages/parser-html`.
