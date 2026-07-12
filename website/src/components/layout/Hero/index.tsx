@@ -31,7 +31,7 @@ interface ConfigOptions {
 }
 
 const defaultConfig: ConfigOptions = {
-  attributeName: "data-testid",
+  attributeName: "id",
   prefix: "",
   excludeTags: ["html", "head", "script"],
   includeExtensions: ["jsx", "tsx"],
@@ -214,7 +214,7 @@ export default function Hero() {
                 ] : "0 0 0px rgba(239, 68, 68, 0)"
               }}
               transition={{ duration: 2.5, repeat: Infinity, repeatDelay: 1 }}
-            >data-testid</motion.span> selectors,
+            >id</motion.span> attributes,
             <br /> added automatically.
           </motion.h1>
 
@@ -225,8 +225,8 @@ export default function Hero() {
             transition={{ duration: 0.6, delay: 0.4 }}
           >
             idomatic scans your React, HTML, Vue &amp; Angular code and injects
-            human-readable, deterministic <code className="bg-zinc-800 px-2 py-1 rounded text-red-400 text-base">data-testid</code> selectors —
-            so your end-to-end tests stop breaking when the DOM shifts.
+            human-readable, deterministic <code className="bg-zinc-800 px-2 py-1 rounded text-red-400 text-base">id</code> attributes —
+            so your Playwright &amp; Cypress tests stop breaking when the DOM shifts.
           </motion.p>
 
           <motion.div
@@ -484,7 +484,7 @@ export default function Hero() {
                         transition={{ delay: 0.2 }}
                         className="text-xs text-zinc-500"
                       >
-                        — semantic data-testid added
+                        — semantic id added
                       </motion.span>
                     </div>
                     <CodeDisplayAnimated code={currentExample.after(config)} language={currentExample.language} />
