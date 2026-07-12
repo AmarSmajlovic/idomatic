@@ -69,7 +69,7 @@ const WhatItSupport = () => {
         >
           <h2 className="text-4xl font-bold mb-4 text-white">What it supports</h2>
           <p className="text-zinc-400 text-lg">
-            IDomatic is built for the modern frontend ecosystem — with more
+            idomatic is built for the modern frontend ecosystem — with more
             support on the way.
           </p>
         </motion.div>

@@ -35,9 +35,9 @@ const steps = [
         <CodeBlock
           code={`{
   "attributeName": "id",
-  "prefix": "auto-id-",
-  "excludeTags": ["html", "head"],
-  "includeExtensions": ["html", "vue"]
+  "idStrategy": "semantic",
+  "prefix": "",
+  "excludeTags": ["html", "head", "script"]
 }`}
         />
         <p className="text-sm mt-3 text-zinc-400">

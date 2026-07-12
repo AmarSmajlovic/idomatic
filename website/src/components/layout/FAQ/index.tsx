@@ -7,23 +7,23 @@ import { ChevronDown, HelpCircle } from "lucide-react";
 const faqs = [
     {
         question: "Will idomatic modify my existing IDs?",
-        answer: "No! Idomatic only adds IDs to elements that don't already have one. Your existing IDs remain untouched, ensuring backward compatibility with your tests and styles.",
+        answer: "No! idomatic only adds IDs to elements that don't already have one. Your existing IDs remain untouched, ensuring backward compatibility with your tests and styles.",
     },
     {
         question: "Does it work with component libraries like MUI or Chakra?",
-        answer: "Yes! Idomatic works at the source code level, so it can add IDs to any JSX/HTML elements in your codebase, including those from component libraries when you're extending or wrapping them.",
+        answer: "Yes! idomatic works at the source code level, so it can add IDs to any JSX/HTML elements in your codebase, including those from component libraries when you're extending or wrapping them.",
     },
     {
         question: "Can I customize the ID naming pattern?",
-        answer: "Absolutely! You can configure the prefix, attribute name (id, data-testid, etc.), and exclude specific tags or files. Check the .idomatic.config.json for all options.",
+        answer: "Absolutely! In .idomatic.config.json you can set the attribute name (id, data-testid, data-cy, etc.), add a prefix, and choose idStrategy: \"semantic\" for readable names like button-submit-login or \"random\" for UUID-based ids. You can also exclude specific tags or files.",
     },
     {
         question: "Is it safe to run on production code?",
-        answer: "Yes! We recommend using the --dry flag first to preview changes. Idomatic is designed to be non-destructive and only adds attributes without modifying existing code structure.",
+        answer: "Yes! We recommend using the --dry flag first to preview changes. idomatic is designed to be non-destructive and only adds attributes without modifying existing code structure.",
     },
     {
         question: "How does it handle dynamic components?",
-        answer: "Idomatic processes your source files statically. For dynamic components, the IDs are added to the template/JSX, so they'll be present when the component renders.",
+        answer: "idomatic processes your source files statically. For dynamic components, the IDs are added to the template/JSX, so they'll be present when the component renders.",
     },
     {
         question: "Can I use it in my CI/CD pipeline?",
