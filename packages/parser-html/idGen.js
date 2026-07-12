@@ -1,10 +1,15 @@
+import { randomUUID } from "crypto";
+
 /**
- * Semantic, deterministic id generation for HTML/Vue templates.
+ * Id generation with a configurable strategy, for HTML/Vue templates.
  *
- * Derives a human-readable slug from the tag and its descriptive attributes,
- * then guarantees uniqueness by suffixing `-2`, `-3`, ... only on collision.
- * Seeding the factory with ids already present in the file makes re-runs
- * idempotent: a new element never duplicates an id that already exists.
+ * - "semantic" (default): derive a human-readable slug from the tag and its
+ *   descriptive attributes, then guarantee uniqueness by suffixing `-2`, `-3`,
+ *   ... only on collision.
+ * - "random": use `${prefix}${randomUUID()}`.
+ *
+ * Either way the factory is seeded with ids already present in the file, so
+ * re-runs are idempotent: a new element never duplicates an existing id.
  */
 
 const MAX_SLUG_LENGTH = 40;
@@ -22,15 +27,23 @@ export function slugify(str, maxLen = MAX_SLUG_LENGTH) {
 }
 
 /**
- * @param {object} config - iDomatic config (uses `prefix`).
+ * @param {object} config - iDomatic config (uses `prefix` and `idStrategy`).
  * @param {Iterable<string>} existing - ids already present in the file.
  * @returns {(parts: string[]) => string} - returns a unique id per call.
  */
 export function createIdFactory(config, existing = []) {
   const prefix = config.prefix || "";
+  const random = config.idStrategy === "random";
   const taken = new Set(existing);
 
   return function makeId(parts) {
+    if (random) {
+      let candidate = `${prefix}${randomUUID()}`;
+      while (taken.has(candidate)) candidate = `${prefix}${randomUUID()}`;
+      taken.add(candidate);
+      return candidate;
+    }
+
     const slug =
       slugify(parts.map((p) => slugify(p)).filter(Boolean).join("-")) || "el";
 

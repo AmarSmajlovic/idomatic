@@ -50,4 +50,19 @@ describe("createIdFactory", () => {
     const makeId = createIdFactory({ prefix: "" });
     expect(makeId([""])).toBe("el");
   });
+
+  it("produces uuid-based ids under the random strategy", () => {
+    const makeId = createIdFactory({ prefix: "auto-id-", idStrategy: "random" });
+    const id = makeId(["button", "submit"]);
+    expect(id).toMatch(
+      /^auto-id-[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/
+    );
+  });
+
+  it("random ids are unique across calls", () => {
+    const makeId = createIdFactory({ prefix: "", idStrategy: "random" });
+    const a = makeId(["div"]);
+    const b = makeId(["div"]);
+    expect(a).not.toBe(b);
+  });
 });
