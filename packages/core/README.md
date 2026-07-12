@@ -1,6 +1,6 @@
 # @idomatic/core
 
-**Automatically add stable `data-testid` selectors to your components — so your Playwright, Cypress and Testing Library tests stop breaking.**
+**Automatically add stable, readable `id` attributes to your components — so your Playwright, Cypress and Testing Library tests stop breaking.**
 
 [![npm](https://img.shields.io/npm/v/@idomatic/core.svg)](https://www.npmjs.com/package/@idomatic/core)
 [![license](https://img.shields.io/npm/l/@idomatic/core.svg)](./LICENSE)
@@ -9,12 +9,12 @@ idomatic is a CLI that scans your React/HTML/Vue/Angular code and injects **huma
 
 <!-- npm renders READMEs in isolation, so this must be an absolute URL. -->
 <p align="center">
-  <img src="https://raw.githubusercontent.com/AmarSmajlovic/idomatic/main/docs/demo.gif" alt="idomatic adding data-testid selectors to a React component" width="820" />
+  <img src="https://raw.githubusercontent.com/AmarSmajlovic/idomatic/main/docs/demo.gif" alt="idomatic adding id attributes to a React component" width="820" />
 </p>
 
 ## Why
 
-E2E tests break because they target selectors that were never meant to be stable — classes, text, DOM position. The fix is a dedicated `data-testid` on every element you test. Adding those by hand is tedious, so idomatic does it for you — and the ids it generates are readable and deterministic:
+E2E tests break because they target selectors that were never meant to be stable — classes, text, DOM position. The fix is a dedicated, stable selector on every element you test. Adding those by hand is tedious, so idomatic does it for you — and the ids it generates are readable and deterministic:
 
 ```jsx
 // before
@@ -22,13 +22,15 @@ E2E tests break because they target selectors that were never meant to be stable
 <input name="email" placeholder="Email address" />
 
 // after `npx idomatic scan --write`
-<button aria-label="Submit login" data-testid="button-submit-login">Log in</button>
-<input name="email" placeholder="Email address" data-testid="input-email" />
+<button aria-label="Submit login" id="button-submit-login">Log in</button>
+<input name="email" placeholder="Email address" id="input-email" />
 ```
 
 ```ts
-await page.getByTestId("button-submit-login").click();
+await page.locator("#button-submit-login").click();
 ```
+
+> Prefer a dedicated test attribute? Set `"attributeName": "data-testid"` and idomatic emits `data-testid="button-submit-login"` instead.
 
 ## Features
 
@@ -57,11 +59,12 @@ Running `npx idomatic scan` with no flag prints usage.
 
 ## Configuration
 
-`.idomatic.config.json` is created during setup. The default targets `data-testid` with no prefix:
+`.idomatic.config.json` is created during setup:
 
 ```json
 {
-  "attributeName": "data-testid",
+  "attributeName": "id",
+  "idStrategy": "semantic",
   "prefix": "",
   "excludeTags": ["html", "head", "script"],
   "includeExtensions": ["js", "jsx", "ts", "tsx"],
@@ -69,7 +72,8 @@ Running `npx idomatic scan` with no flag prints usage.
 }
 ```
 
-- **`attributeName`** — the attribute to inject (`data-testid`, `data-test`, `id`, …).
+- **`attributeName`** — the attribute to inject. Defaults to `id`; set `"data-testid"` (or `"data-test"`, …) if you prefer a dedicated test attribute.
+- **`idStrategy`** — `"semantic"` (default) for readable ids like `button-submit`, or `"random"` for `${prefix}${uuid}`.
 - **`prefix`** — optional namespace, e.g. `"qa-"` → `qa-button-submit`. Leave empty for clean ids.
 - **`excludeTags`** — tags to skip.
 - **`includeExtensions`** — for HTML/Vue/Angular this is `["html", "vue", "ng.html"]`.
