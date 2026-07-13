@@ -35,7 +35,7 @@ export default function Header() {
             >
               #
             </motion.span>
-            IDomatic
+            idomatic
           </motion.span>
         </Link>
 

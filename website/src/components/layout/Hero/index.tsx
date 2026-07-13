@@ -32,87 +32,89 @@ interface ConfigOptions {
 
 const defaultConfig: ConfigOptions = {
   attributeName: "id",
-  prefix: "auto-id-",
-  excludeTags: ["html", "head"],
-  includeExtensions: ["html", "vue"],
+  prefix: "",
+  excludeTags: ["html", "head", "script"],
+  includeExtensions: ["jsx", "tsx"],
 };
 
 const codeExamples: Record<FileType, CodeExample> = {
   tsx: {
-    before: `function Example() {
+    before: `function LoginForm() {
   return (
-    <div>
-      <p>Click the button below</p>
-      <button>Click me</button>
-    </div>
+    <form>
+      <h1>Sign in</h1>
+      <input name="email" placeholder="Email" />
+      <button aria-label="Submit login">Log in</button>
+    </form>
   );
 }`,
-    after: (config) => `function Example() {
+    after: (config) => `function LoginForm() {
   return (
-    <div ${config.attributeName}="${config.prefix}container">
-      <p ${config.attributeName}="${config.prefix}text">Click the button below</p>
-      <button ${config.attributeName}="${config.prefix}btn">Click me</button>
-    </div>
+    <form ${config.attributeName}="${config.prefix}form">
+      <h1 ${config.attributeName}="${config.prefix}h1-sign-in">Sign in</h1>
+      <input name="email" placeholder="Email" ${config.attributeName}="${config.prefix}input-email" />
+      <button aria-label="Submit login" ${config.attributeName}="${config.prefix}button-submit-login">Log in</button>
+    </form>
   );
 }`,
     language: "tsx",
   },
   html: {
-    before: `<div class="card">
-  <h2>Welcome</h2>
-  <p>This is a card component</p>
-  <button class="btn">Learn More</button>
-</div>`,
-    after: (config) => `<div ${config.attributeName}="${config.prefix}card" class="card">
-  <h2 ${config.attributeName}="${config.prefix}title">Welcome</h2>
-  <p ${config.attributeName}="${config.prefix}desc">This is a card component</p>
-  <button ${config.attributeName}="${config.prefix}btn" class="btn">Learn More</button>
-</div>`,
+    before: `<form class="login">
+  <input name="email" placeholder="Email">
+  <input name="password" type="password">
+  <button aria-label="Sign in">Go</button>
+</form>`,
+    after: (config) => `<form class="login" ${config.attributeName}="${config.prefix}form">
+  <input name="email" placeholder="Email" ${config.attributeName}="${config.prefix}input-email">
+  <input name="password" type="password" ${config.attributeName}="${config.prefix}input-password">
+  <button aria-label="Sign in" ${config.attributeName}="${config.prefix}button-sign-in">Go</button>
+</form>`,
     language: "html",
   },
   js: {
-    before: `const App = () => {
-  return createElement('div', null,
-    createElement('input', { type: 'text' }),
-    createElement('button', null, 'Submit')
+    before: `export function PricingCard() {
+  return (
+    <article>
+      <h2>Pro plan</h2>
+      <button aria-label="Choose Pro plan">Buy now</button>
+    </article>
   );
-};`,
-    after: (config) => `const App = () => {
-  return createElement('div', { ${config.attributeName}: '${config.prefix}root' },
-    createElement('input', { ${config.attributeName}: '${config.prefix}input', type: 'text' }),
-    createElement('button', { ${config.attributeName}: '${config.prefix}submit' }, 'Submit')
+}`,
+    after: (config) => `export function PricingCard() {
+  return (
+    <article ${config.attributeName}="${config.prefix}article">
+      <h2 ${config.attributeName}="${config.prefix}h2-pro-plan">Pro plan</h2>
+      <button aria-label="Choose Pro plan" ${config.attributeName}="${config.prefix}button-choose-pro-plan">Buy now</button>
+    </article>
   );
-};`,
-    language: "javascript",
+}`,
+    language: "jsx",
   },
   vue: {
     before: `<template>
-  <div class="container">
-    <h1>{{ title }}</h1>
-    <input v-model="search" placeholder="Search...">
-    <button @click="submit">Search</button>
-  </div>
+  <form>
+    <input name="search" v-model="q" placeholder="Search">
+    <button aria-label="Run search">Search</button>
+  </form>
 </template>`,
     after: (config) => `<template>
-  <div ${config.attributeName}="${config.prefix}container" class="container">
-    <h1 ${config.attributeName}="${config.prefix}title">{{ title }}</h1>
-    <input ${config.attributeName}="${config.prefix}search" v-model="search" placeholder="Search...">
-    <button ${config.attributeName}="${config.prefix}btn" @click="submit">Search</button>
-  </div>
+  <form ${config.attributeName}="${config.prefix}form">
+    <input name="search" v-model="q" placeholder="Search" ${config.attributeName}="${config.prefix}input-search">
+    <button aria-label="Run search" ${config.attributeName}="${config.prefix}button-run-search">Search</button>
+  </form>
 </template>`,
     language: "html",
   },
   angular: {
-    before: `<div class="wrapper">
-  <h2>{{ heading }}</h2>
-  <input [(ngModel)]="name" placeholder="Enter name">
-  <button (click)="save()">Save</button>
-</div>`,
-    after: (config) => `<div ${config.attributeName}="${config.prefix}wrapper" class="wrapper">
-  <h2 ${config.attributeName}="${config.prefix}heading">{{ heading }}</h2>
-  <input ${config.attributeName}="${config.prefix}input" [(ngModel)]="name" placeholder="Enter name">
-  <button ${config.attributeName}="${config.prefix}save" (click)="save()">Save</button>
-</div>`,
+    before: `<form>
+  <input [(ngModel)]="name" name="fullname" placeholder="Name">
+  <button aria-label="Save profile">Save</button>
+</form>`,
+    after: (config) => `<form ${config.attributeName}="${config.prefix}form">
+  <input [(ngModel)]="name" name="fullname" placeholder="Name" ${config.attributeName}="${config.prefix}input-fullname">
+  <button aria-label="Save profile" ${config.attributeName}="${config.prefix}button-save-profile">Save</button>
+</form>`,
     language: "html",
   },
 };
@@ -182,24 +184,38 @@ export default function Hero() {
           animate={{ opacity: mounted ? 1 : 0, x: mounted ? 0 : -50 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
         >
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: mounted ? 1 : 0, y: mounted ? 0 : 10 }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="mb-6 inline-flex items-center gap-2 rounded-full border border-red-500/30 bg-red-500/10 px-3.5 py-1.5 text-xs sm:text-sm font-medium text-red-300"
+          >
+            <span className="relative flex h-2 w-2">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-red-400 opacity-75" />
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-red-500" />
+            </span>
+            Works with Playwright · Cypress · Testing Library
+          </motion.div>
+
           <motion.h1
-            className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight mb-8 leading-tight"
+            className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight mb-6 leading-[1.1]"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: mounted ? 1 : 0, y: mounted ? 0 : 20 }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
-            Automate your <motion.span
-              className="text-red-500 inline-block"
+            Stable{" "}
+            <motion.span
+              className="bg-gradient-to-r from-red-500 to-orange-400 bg-clip-text text-transparent inline-block"
               animate={{
                 textShadow: mounted ? [
                   "0 0 0px rgba(239, 68, 68, 0)",
-                  "0 0 30px rgba(239, 68, 68, 0.6)",
+                  "0 0 30px rgba(239, 68, 68, 0.5)",
                   "0 0 0px rgba(239, 68, 68, 0)"
                 ] : "0 0 0px rgba(239, 68, 68, 0)"
               }}
-              transition={{ duration: 2, repeat: Infinity, repeatDelay: 1 }}
-            >#ID</motion.span> attributes.
-            <br /> Stay consistent, stay testable.
+              transition={{ duration: 2.5, repeat: Infinity, repeatDelay: 1 }}
+            >id</motion.span> attributes,
+            <br /> added automatically.
           </motion.h1>
 
           <motion.p
@@ -208,9 +224,9 @@ export default function Hero() {
             animate={{ opacity: mounted ? 1 : 0, y: mounted ? 0 : 20 }}
             transition={{ duration: 0.6, delay: 0.4 }}
           >
-            IDomatic automatically adds meaningful <code className="bg-zinc-800 px-2 py-1 rounded text-red-400 text-base">id</code> attributes to
-            your HTML/JSX for better testability, maintainability, and team
-            sanity.
+            idomatic scans your React, HTML, Vue &amp; Angular code and injects
+            human-readable, deterministic <code className="bg-zinc-800 px-2 py-1 rounded text-red-400 text-base">id</code> attributes —
+            so your Playwright &amp; Cypress tests stop breaking when the DOM shifts.
           </motion.p>
 
           <motion.div
@@ -227,11 +243,25 @@ export default function Hero() {
             animate={{ opacity: mounted ? 1 : 0, y: mounted ? 0 : 20 }}
             transition={{ duration: 0.6, delay: 0.8 }}
           >
-            <Link href="/docs#installation">
-              <Button className="bg-red-600 cursor-pointer hover:bg-red-500 text-white text-lg px-8 py-3 h-14 transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-red-500/30">
-                Get Started
-              </Button>
-            </Link>
+            <div className="flex flex-wrap items-center gap-3">
+              <Link href="/docs#installation">
+                <Button className="bg-red-600 cursor-pointer hover:bg-red-500 text-white text-lg px-8 py-3 h-14 transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-red-500/30">
+                  Get Started
+                </Button>
+              </Link>
+              <a
+                href="https://www.npmjs.com/package/@idomatic/core"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Button
+                  variant="outline"
+                  className="cursor-pointer border-zinc-700 bg-transparent text-white text-lg px-8 py-3 h-14 transition-all duration-300 hover:bg-zinc-800 hover:border-zinc-600 hover:scale-105"
+                >
+                  View on npm
+                </Button>
+              </a>
+            </div>
           </motion.div>
         </motion.div>
 
@@ -454,7 +484,7 @@ export default function Hero() {
                         transition={{ delay: 0.2 }}
                         className="text-xs text-zinc-500"
                       >
-                        — IDs added successfully!
+                        — semantic id added
                       </motion.span>
                     </div>
                     <CodeDisplayAnimated code={currentExample.after(config)} language={currentExample.language} />

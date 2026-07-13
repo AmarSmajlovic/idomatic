@@ -3,4 +3,8 @@ export default {
     title: "Documentation",
     type: "page",
   },
+  changelog: {
+    title: "Changelog",
+    type: "page",
+  },
 };
