@@ -11,7 +11,7 @@ export const metadata: Metadata = {
     "Automatically adds id attributes to your HTML/JSX/TSX components for improved testing and QA processes.",
   metadataBase: new URL("https://idomatic.dev"),
   keywords: [
-    "Idomatic",
+    "idomatic",
     "CLI",
     "HTML",
     "JSX",
@@ -24,18 +24,18 @@ export const metadata: Metadata = {
     "QA",
     "Automation",
   ],
-  generator: "Idomatic CLI",
-  applicationName: "Idomatic",
+  generator: "idomatic CLI",
+  applicationName: "idomatic",
   appleWebApp: {
-    title: "Idomatic",
+    title: "idomatic",
   },
   title: {
-    default: "Idomatic – Automatic ID Injection CLI",
-    template: "%s | Idomatic",
+    default: "idomatic – Automatic ID Injection CLI",
+    template: "%s | idomatic",
   },
   openGraph: {
     url: "./",
-    siteName: "Idomatic",
+    siteName: "idomatic",
     locale: "en_US",
     type: "website",
   },
@@ -59,7 +59,7 @@ const navbar = (
     logoLink="/"
     logo={
       <p className="text-white text-xl font-semibold tracking-tight no-underline">
-        <span className="text-red-600">#</span>IDomatic
+        <span className="text-red-600">#</span>idomatic
       </p>
     }
     projectLink="https://github.com/AmarSmajlovic/idomatic-website"

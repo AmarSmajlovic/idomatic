@@ -1,0 +1,35 @@
+---
+title: Changelog
+type: page
+toc: true
+---
+
+# Changelog
+
+All notable changes to idomatic. This project follows [semantic versioning](https://semver.org).
+
+## 1.2.0 — 2026-07-12
+
+Semantic ids, a configurable id strategy, and a full docs/site refresh.
+
+**Packages:** `@idomatic/core@1.2.0` · `@idomatic/create@1.2.0` · `@idomatic/parser-js@1.1.0` · `@idomatic/parser-html@1.1.0`
+
+### Added
+
+- **Semantic id generation** — ids are now derived from an element's context (`aria-label`, `name`, `placeholder`, `alt`, text content, or tag), e.g. `button-submit-login` instead of a random hash.
+- **`idStrategy` config option** — choose `"semantic"` (default) for readable ids, or `"random"` for `${prefix}${uuid}`.
+- Automated test coverage (Vitest) across both parsers.
+
+### Changed
+
+- Ids are now **idempotent** — re-running never renames or duplicates an existing id (the generator is seeded with ids already present in the file), so diffs stay clean and it's safe to run in CI.
+- Default `prefix` is now empty (`""`) for cleaner ids out of the box.
+
+### Fixed
+
+- Declared `@babel/parser` as a dependency of `@idomatic/parser-js`. A fresh install could previously resolve an incompatible major version and crash on the first scan.
+- Fixed a broken internal import in the core default config.
+
+## Earlier releases
+
+For versions before 1.2.0, see the [GitHub releases](https://github.com/AmarSmajlovic/idomatic/releases) and the commit history.
