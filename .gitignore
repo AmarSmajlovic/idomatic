@@ -15,3 +15,13 @@ node_modules/
 # IDE
 .vscode/
 .idea/
+.claude/
+
+# Lokalne radne kopije i backupi — kanonski kod paketa je u packages/
+/idomatic/
+/idomatic-test-project/
+/test-2/
+/parser-js/
+/@idomatic-parser-html/
+/create-idomatic-package/
+website/.git_backup/

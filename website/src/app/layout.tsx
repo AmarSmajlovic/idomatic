@@ -5,7 +5,6 @@ import { getPageMap } from "nextra/page-map";
 import type { FC, ReactNode } from "react";
 import "./globals.css";
 import Footer from "@/components/layout/Footer";
-import { Analytics } from "@vercel/analytics/next";
 
 export const metadata: Metadata = {
   description:
@@ -52,9 +51,7 @@ export const metadata: Metadata = {
 };
 
 const banner = (
-  <Banner dismissible={false}>
-    🚀 You Code the Magic. We Handle the IDs. Welcome to IDomatic Docs!
-  </Banner>
+  <Banner dismissible={false}>🚀 IDomatic is live – check it out now!</Banner>
 );
 const navbar = (
   <Navbar
@@ -65,7 +62,7 @@ const navbar = (
         <span className="text-red-600">#</span>IDomatic
       </p>
     }
-    projectLink="https://github.com/AmarSmajlovic/idomatic"
+    projectLink="https://github.com/AmarSmajlovic/idomatic-website"
   />
 );
 
@@ -81,15 +78,13 @@ const RootLayout: FC<{
           banner={banner}
           navbar={navbar}
           pageMap={pageMap}
-          docsRepositoryBase="https://github.com/AmarSmajlovic/idomatic/blob/main/website"
+          docsRepositoryBase="https://github.com/AmarSmajlovic/idomatic-website/tree/main/src/app"
           editLink="Edit this page on GitHub"
           sidebar={{ defaultMenuCollapseLevel: 1 }}
           footer={<Footer />}
         >
           {children}
         </Layout>
-        {/* Analytics */}
-        <Analytics />
       </body>
     </html>
   );
