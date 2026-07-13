@@ -1,39 +1,477 @@
 ---
-description: >
-  Idomatic is a CLI tool that automatically adds id attributes to your HTML/JSX/TSX components.
-  It improves testing and QA processes by ensuring that key elements always have unique, predictable identifiers.
-  Optimized for React and HTML-based projects (including Vue and Angular).
+title: Documentation
+type: page
+toc: true
 ---
 
-import { Cards, Image } from "nextra/components";
-import { cloneElement } from "react";
+# idomatic
 
-export default function MdxLayout(props) {
-  return cloneElement(props.children, {
-    components: {
-      img: Image,
-    },
-  });
-}
+idomatic is a CLI tool that automatically injects `id` attributes into your HTML/JSX/TSX/Vue/Angular components.
 
-# Idomatic
+It helps ensure better testability, maintainability, and traceability in your codebase by adding stable, unique `id` attributes where they're missing.
 
-**Idomatic** is a CLI tool that automatically adds id attributes to your HTML/JSX/TSX components. It helps improve your testing and QA processes by ensuring that key elements always have unique, predictable identifiers.
+---
 
-_Note: Idomatic is optimized for React and HTML-based projects (including Vue and Angular). During setup, you choose your framework, and the tool creates a default configuration accordingly._
+## Why idomatic?
 
-## Features
+### The Problem
 
-- **Automatic ID Injection:** Scans your project files and injects id attributes into components that are missing them.
-- **Configurable Behavior:** Customize the prefix, specify file extensions, exclude certain tags, and more.
-- **Dry Run and Write Modes:** Preview changes before actually updating your files.
-- **Framework Specific Defaults:** Pre-populated configurations for React (JS/TSX) or HTML-based projects (HTML/Vue/Angular).
-- **Easy Integration:** Seamlessly integrate with your existing build or CI/CD processes.
+When writing frontend code, developers often forget to add `id` attributes to elements. This causes problems when:
+
+- **Writing E2E tests** - Selectors like `.btn-primary` are fragile and break when styles change
+- **Debugging** - Finding elements in DevTools is harder without meaningful identifiers
+- **Accessibility** - Labels need `for` attributes that reference element IDs
+- **Analytics** - Tracking tools need stable identifiers for click tracking
+
+### The Solution
+
+idomatic automatically scans your codebase and adds `id` attributes to elements that don't have them. It's:
+
+- **Non-destructive** - Only adds IDs where missing, never modifies existing ones
+- **Configurable** - Customize prefix, attribute name, excluded tags, and more
+- **Framework-agnostic** - Works with React, Vue, Angular, and plain HTML
+
+---
 
 ## Installation
 
-To install Idomatic, run the initializer command:
+To install idomatic, run the initializer:
 
-```shell
+```bash
 npm init @idomatic
 ```
+
+This command will:
+1. Ask you which framework you're using (React, Vue, Angular, HTML)
+2. Create a `.idomatic.config.json` configuration file
+3. Add recommended scripts to your `package.json`
+
+### Manual Installation
+
+If you prefer manual setup:
+
+```bash
+npm install -D @idomatic/core
+```
+
+Then create `.idomatic.config.json` in your project root.
+
+---
+
+## Quick Start
+
+### 1. Initialize
+
+```bash
+npm init @idomatic
+```
+
+### 2. Preview Changes (Dry Run)
+
+```bash
+npx idomatic scan --dry
+```
+
+This shows which files would be modified without actually changing them.
+
+### 3. Apply Changes
+
+```bash
+npx idomatic scan
+```
+
+This scans your files and injects missing `id` attributes.
+
+---
+
+## CLI Commands
+
+### `idomatic scan`
+
+Scans your files and injects missing `id` attributes based on your config.
+
+```bash
+npx idomatic scan
+```
+
+**Options:**
+
+| Flag | Description |
+|------|-------------|
+| `--dry` | Preview changes without modifying files |
+| `--verbose` | Show detailed output |
+
+### `idomatic scan --dry`
+
+Dry run mode – logs which files **would be updated**, but doesn't write anything to disk.
+
+```bash
+npx idomatic scan --dry
+```
+
+This is useful for:
+- CI/CD pipelines to check for missing IDs
+- Previewing changes before applying them
+- Testing your configuration
+
+---
+
+## Configuration
+
+idomatic uses a `.idomatic.config.json` config file to customize how and where IDs are applied.
+
+### Full Configuration Example
+
+```json
+{
+  "attributeName": "id",
+  "idStrategy": "semantic",
+  "prefix": "",
+  "includeExtensions": ["js", "jsx", "ts", "tsx", "html", "vue"],
+  "excludeFiles": ["node_modules", "dist", "build", ".next"],
+  "excludeTags": ["html", "head", "meta", "link", "script", "style", "br", "hr"]
+}
+```
+
+### Configuration Options
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `attributeName` | `string` | `"id"` | Attribute to inject (`id`, `data-testid`, `data-cy`, etc.) |
+| `idStrategy` | `string` | `"semantic"` | `"semantic"` for readable ids (`button-submit`) or `"random"` for `${prefix}${uuid}` |
+| `prefix` | `string` | `""` | Optional string prepended to every id (e.g. `"qa-"`) |
+| `includeExtensions` | `string[]` | `["js", "jsx", "ts", "tsx"]` | File extensions to scan |
+| `excludeFiles` | `string[]` | `["node_modules"]` | Directories or files to ignore (supports glob patterns) |
+| `excludeTags` | `string[]` | `["html", "head"]` | HTML tags that should be skipped |
+
+---
+
+## Configuration Examples
+
+### React/JSX Project
+
+```json
+{
+  "prefix": "app-",
+  "attributeName": "id",
+  "includeExtensions": ["jsx", "tsx"],
+  "excludeFiles": ["node_modules", "dist", ".next", "__tests__"],
+  "excludeTags": ["html", "head", "meta", "link", "script", "style"]
+}
+```
+
+### Vue Project
+
+```json
+{
+  "prefix": "vue-",
+  "attributeName": "id",
+  "includeExtensions": ["vue"],
+  "excludeFiles": ["node_modules", "dist"],
+  "excludeTags": ["html", "head", "meta", "link", "script", "style", "template"]
+}
+```
+
+### Angular Project
+
+```json
+{
+  "prefix": "ng-",
+  "attributeName": "id",
+  "includeExtensions": ["html"],
+  "excludeFiles": ["node_modules", "dist", "e2e"],
+  "excludeTags": ["html", "head", "meta", "link", "script", "style", "ng-container", "ng-template"]
+}
+```
+
+### Using data-testid (for Testing)
+
+```json
+{
+  "prefix": "test-",
+  "attributeName": "data-testid",
+  "includeExtensions": ["jsx", "tsx"],
+  "excludeFiles": ["node_modules"],
+  "excludeTags": ["html", "head", "script", "style"]
+}
+```
+
+### Using data-cy (for Cypress)
+
+```json
+{
+  "prefix": "",
+  "attributeName": "data-cy",
+  "includeExtensions": ["jsx", "tsx", "vue"],
+  "excludeFiles": ["node_modules", "cypress"],
+  "excludeTags": ["html", "head", "script", "style"]
+}
+```
+
+---
+
+## Framework Guides
+
+### React / JSX / TSX
+
+idomatic works seamlessly with React components:
+
+**Before:**
+```tsx
+function LoginForm() {
+  return (
+    <form>
+      <input type="email" placeholder="Email" />
+      <input type="password" placeholder="Password" />
+      <button>Login</button>
+    </form>
+  );
+}
+```
+
+**After:**
+```tsx
+function LoginForm() {
+  return (
+    <form id="form">
+      <input type="email" placeholder="Email" id="input-email" />
+      <input type="password" placeholder="Password" id="input-password" />
+      <button id="button-login">Login</button>
+    </form>
+  );
+}
+```
+
+> Names are derived from context: an element's `aria-label`, `name`, `placeholder`, `alt` or — in JSX/TSX — its text content, falling back to the tag name. Duplicates get a `-2`, `-3` suffix.
+
+### Vue
+
+idomatic processes Vue Single File Components (`.vue` files):
+
+**Before:**
+```vue
+<template>
+  <form class="search">
+    <input name="query" placeholder="Search" />
+    <button aria-label="Run search" @click="handleClick">Go</button>
+  </form>
+</template>
+```
+
+**After:**
+```vue
+<template>
+  <form class="search" id="form">
+    <input name="query" placeholder="Search" id="input-query" />
+    <button aria-label="Run search" @click="handleClick" id="button-run-search">Go</button>
+  </form>
+</template>
+```
+
+### Angular
+
+For Angular, idomatic processes external HTML template files:
+
+**Before (`component.html`):**
+```html
+<div class="container">
+  <h1>{{ heading }}</h1>
+  <input name="search" [(ngModel)]="searchTerm" placeholder="Search...">
+  <button aria-label="Run search" (click)="onSearch()">Search</button>
+</div>
+```
+
+**After:**
+```html
+<div class="container" id="div">
+  <h1 id="h1">{{ heading }}</h1>
+  <input name="search" [(ngModel)]="searchTerm" placeholder="Search..." id="input-search">
+  <button aria-label="Run search" (click)="onSearch()" id="button-run-search">Search</button>
+</div>
+```
+
+**Note:** Make sure your Angular components use `templateUrl` to reference external HTML files.
+
+### Plain HTML
+
+**Before:**
+```html
+<section class="hero">
+  <h1>Welcome</h1>
+  <p>This is the hero section</p>
+  <a href="/signup" aria-label="Get started" class="btn">Get Started</a>
+</section>
+```
+
+**After:**
+```html
+<section class="hero" id="section">
+  <h1 id="h1">Welcome</h1>
+  <p id="p">This is the hero section</p>
+  <a href="/signup" aria-label="Get started" class="btn" id="a-get-started">Get Started</a>
+</section>
+```
+
+---
+
+## CI/CD Integration
+
+### GitHub Actions
+
+Add idomatic to your CI pipeline to ensure all new code has proper IDs:
+
+```yaml
+name: Check IDs
+
+on: [push, pull_request]
+
+jobs:
+  check-ids:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+      - run: npm ci
+      - run: npx idomatic scan --dry
+```
+
+The `--dry` flag will exit with a non-zero code if any files would be modified, failing the CI check.
+
+### Pre-commit Hook
+
+Use Husky to run idomatic before each commit:
+
+```bash
+npm install -D husky
+npx husky init
+echo "npx idomatic scan" > .husky/pre-commit
+```
+
+---
+
+## Best Practices
+
+### 1. Use Meaningful Prefixes
+
+Choose a prefix that identifies your project or component:
+
+```json
+{
+  "prefix": "myapp-"
+}
+```
+
+### 2. Exclude Test Files
+
+Don't add IDs to test files:
+
+```json
+{
+  "excludeFiles": ["__tests__", "*.test.tsx", "*.spec.ts"]
+}
+```
+
+### 3. Use data-testid for Testing
+
+If you're using Testing Library, use `data-testid`:
+
+```json
+{
+  "attributeName": "data-testid"
+}
+```
+
+### 4. Run Dry Mode First
+
+Always preview changes before applying:
+
+```bash
+npx idomatic scan --dry
+```
+
+### 5. Add to CI/CD
+
+Ensure all new code has IDs by adding idomatic to your pipeline.
+
+---
+
+## Troubleshooting
+
+### IDs not being added
+
+1. Check that your file extension is in `includeExtensions`
+2. Verify the file isn't in `excludeFiles`
+3. Make sure the tag isn't in `excludeTags`
+
+### Existing IDs being overwritten
+
+idomatic **never** overwrites existing IDs. If you're seeing this, check if:
+- The element truly had an ID before
+- You're looking at the correct file
+
+### Config not being read
+
+Make sure `.idomatic.config.json` is in your project root (same level as `package.json`).
+
+---
+
+## Package Scripts
+
+Add these scripts to your `package.json` for convenience:
+
+```json
+{
+  "scripts": {
+    "ids": "idomatic scan",
+    "ids:check": "idomatic scan --dry",
+    "ids:verbose": "idomatic scan --verbose"
+  }
+}
+```
+
+Then run:
+
+```bash
+npm run ids        # Apply IDs
+npm run ids:check  # Preview changes
+```
+
+---
+
+## FAQ
+
+### Does idomatic modify existing IDs?
+
+No. idomatic only adds IDs to elements that don't already have one.
+
+### Can I use a custom attribute like data-testid?
+
+Yes! Set `attributeName` in your config:
+
+```json
+{
+  "attributeName": "data-testid"
+}
+```
+
+### Does it work with TypeScript?
+
+Yes. idomatic supports `.ts` and `.tsx` files.
+
+### Is it safe to run on production code?
+
+Yes. We recommend using `--dry` first to preview changes. idomatic is non-destructive.
+
+### How are IDs generated?
+
+By default (`idStrategy: "semantic"`) ids are derived from each element's context — `aria-label`, `name`, `placeholder`, `alt`, text content or tag — and made unique on collision (`-2`, `-3`, …). Set `idStrategy: "random"` to use `${prefix}${uuid}` instead.
+
+---
+
+## Support
+
+- **GitHub Issues:** [Report a bug](https://github.com/AmarSmajlovic/idomatic/issues)
+- **GitHub Discussions:** [Ask a question](https://github.com/AmarSmajlovic/idomatic/discussions)
+- **Email:** amarsmajlovic27@gmail.com
