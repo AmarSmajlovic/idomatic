@@ -1,8 +1,17 @@
 {
   "name": "@idomatic/parser-js",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "JS/TSX parser for idomatic CLI",
   "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AmarSmajlovic/idomatic.git",
+    "directory": "packages/parser-js"
+  },
+  "homepage": "https://www.idomatic.dev",
+  "bugs": {
+    "url": "https://github.com/AmarSmajlovic/idomatic/issues"
+  },
   "main": "index.js",
   "files": [
     "index.js",
