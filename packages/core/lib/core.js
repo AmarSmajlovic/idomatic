@@ -29,10 +29,16 @@ export async function processFile(filePath, config, dry = false) {
     const result = await parser.default(filePath, config, dry);
     return result;
   } catch (err) {
-    console.log(err);
-    console.error(
-      `❌ Failed to load parser "${parserPackage}" for ${filePath}`
-    );
+    if (err.code === "MODULE_NOT_FOUND") {
+      console.error(
+        `❌ Missing parser for ${filePath} — install it with: npm i -D ${parserPackage}`
+      );
+    } else {
+      console.error(
+        `❌ Failed to load parser "${parserPackage}" for ${filePath}`,
+        err
+      );
+    }
     return false;
   }
 }

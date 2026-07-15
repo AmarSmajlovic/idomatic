@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env node
 import prompts from "prompts";
 import { execSync } from "child_process";
 import { detectPackageManagerFallback } from "./utils/index.js";
@@ -47,4 +47,4 @@ const installCoreCmd = {
 console.log(`📦 Installing @idomatic/core with ${pkg}...`);
 execSync(installCoreCmd, { stdio: "inherit" });
 
-console.log("🎉 You're ready to run: npx idomatic --init-scan");
+console.log("🎉 You're ready to run: npx idomatic scan --dry");

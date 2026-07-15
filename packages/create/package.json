@@ -1,7 +1,17 @@
 {
   "name": "@idomatic/create",
-  "version": "1.2.0",
+  "version": "1.2.1",
+  "description": "Interactive setup CLI for idomatic — run `npm init @idomatic` to scaffold config in an existing project.",
   "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AmarSmajlovic/idomatic.git",
+    "directory": "packages/create"
+  },
+  "homepage": "https://www.idomatic.dev",
+  "bugs": {
+    "url": "https://github.com/AmarSmajlovic/idomatic/issues"
+  },
   "bin": {
     "@idomatic/create": "./index.js"
   },

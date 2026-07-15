@@ -1,8 +1,17 @@
 {
   "name": "@idomatic/parser-html",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "HTML/Vue/Angular parser for idomatic CLI",
   "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AmarSmajlovic/idomatic.git",
+    "directory": "packages/parser-html"
+  },
+  "homepage": "https://www.idomatic.dev",
+  "bugs": {
+    "url": "https://github.com/AmarSmajlovic/idomatic/issues"
+  },
   "main": "index.js",
   "files": [
     "index.js",

@@ -1,13 +1,24 @@
 {
   "name": "@idomatic/core",
-  "version": "1.2.0",
+  "version": "1.3.0",
+  "description": "CLI that injects stable, human-readable id attributes into React/HTML/Vue/Angular elements so Playwright, Cypress and Testing Library tests stop breaking.",
   "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AmarSmajlovic/idomatic.git",
+    "directory": "packages/core"
+  },
+  "homepage": "https://www.idomatic.dev",
+  "bugs": {
+    "url": "https://github.com/AmarSmajlovic/idomatic/issues"
+  },
   "bin": {
     "idomatic": "./bin/index.js"
   },
   "files": [
     "bin",
-    "lib"
+    "lib",
+    "const"
   ],
   "dependencies": {
     "globby": "^14.1.0",
